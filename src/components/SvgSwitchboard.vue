@@ -4,10 +4,12 @@
   </svg>
 </template>
 <script lang="ts">
-export default {
+import Vue from 'vue'
+
+export default Vue.extend({
   name: 'svg-switchboard',
   props: { x: Number, y: Number, width: Number },
-  data: function() {
+  data() {
     return { height: 5 };
   },
   computed: {
@@ -15,6 +17,6 @@ export default {
       return `0 0 ${this.width} ${this.height}`;
     }
   }
-};
+});
 </script>
 

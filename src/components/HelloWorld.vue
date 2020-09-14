@@ -4,8 +4,9 @@
   </div>
 </template>
 
-<script>
-import SvgSld from "@/components/SvgSld";
+<script lang="ts">
+import SvgSld from '@/components/SvgSld.vue';
+
 export default {
   name: 'HelloWorld',
   components: {SvgSld},

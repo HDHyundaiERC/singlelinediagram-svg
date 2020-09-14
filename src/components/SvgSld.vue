@@ -8,7 +8,7 @@
 import SvgGroup from './SvgGroup.vue';
 import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'svg-sld',
   components: { },
   props: { x: Number, y: Number },
@@ -16,13 +16,12 @@ export default {
     return { height: 5, width: 10 };
   },
   mounted() {
-    const root = this.$refs.root
-    const ComponentClass = Vue.extend(SvgGroup)
+    const root = this.$refs.root as Element;
     let height = 0;
     let width = 0
     // eslint-disable-next-line no-unused-vars
     for (const _i of [0, 1]) {
-      const component = new ComponentClass({ propsData: { y:0, x: width } });
+      const component = new SvgGroup({ propsData: { y:0, x: width } });
       component.$mount();
       root.appendChild(component.$el);
       height = Math.max(component.height, height);
@@ -36,7 +35,7 @@ export default {
       return `0 0 ${ this.width } ${ this.height }`;
     }
   }
-};
+});
 </script>
 <style>
 .single-line-diagram {
