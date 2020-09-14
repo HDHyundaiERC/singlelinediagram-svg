@@ -1,43 +1,81 @@
 <template>
-  <svg :viewBox="viewBox" :x="x" :y="y" :height="height" :width="width" ref="root">
+  <svg
+    :viewBox="viewBox"
+    :x="x"
+    :y="y"
+    :height="height"
+    :width="width"
+    ref="root"
+  >
+    <svg-component
+      ref="child"
+      v-for="(component, index) of components"
+      :color="component.color"
+      v-bind:key="index"
+      :x="0"
+      :y="yComponents[index]"
+      @update-size="updateSize(index, $event)"
+    ></svg-component>
   </svg>
 </template>
 <script lang="ts">
-import SvgComponent from '@/components/SvgComponent.vue';
-import Vue from 'vue'
+import Vue from "vue";
+import SvgComponent from "@/components/SvgComponent.vue";
 
 export default Vue.extend({
-  name: 'svg-group',
+  name: "svg-group",
   props: { x: Number, y: Number },
-  data: function () {
+  components: { SvgComponent },
+  data: function() {
     return {
-      height: 0, width: 0, components: [
+      components: [
         {
-          color: 'green'
+          color: "green"
         },
         {
-          color: 'blue'
-        }]
+          color: "blue"
+        }
+      ],
+      sizes: {}
     };
   },
-  mounted() {
-    const root = this.$refs.root;
-    let y = 0;
-    let width = 0;
-    for (const comp of this.components) {
-      const option = { propsData: { y, x: 0, color: comp.color } };
-      const component = new SvgComponent(option);
-      component.$mount();
-      root.appendChild(component.$el);
-      y += component.height;
-      width = Math.max(width, component.width)
-    }
-    this.width = width;
-    this.height = y;
-  },
   computed: {
-    viewBox: function (): string {
-      return `0 0 ${ this.width } ${ this.height }`;
+    viewBox: function(): string {
+      return `0 0 ${this.width} ${this.height}`;
+    },
+    yComponents: function(): number[] {
+      const componentsIds = Object.keys(this.sizes);
+      if (componentsIds.length !== this.components.length) {
+        return this.components.map(() => 0);
+      }
+      let y = 0;
+      const yComp = [];
+      for (const component of componentsIds) {
+        const size = this.sizes[component];
+        yComp.push(y);
+        y += size.height;
+      }
+      return yComp;
+    },
+    width: function(): number {
+      return Object.values(this.sizes).reduce(
+        (oldWidth, size) => Math.max(oldWidth, size.width),
+        0
+      );
+    },
+    height: function(): number {
+      return Object.values(this.sizes).reduce(
+        (sumHeight, size) => sumHeight + size.height,
+        0
+      );
+    }
+  },
+  methods: {
+    updateSize: function(
+      index: number,
+      size: { width: number; height: number }
+    ) {
+      Vue.set(this.sizes, index, size);
     }
   }
 });

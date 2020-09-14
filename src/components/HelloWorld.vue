@@ -5,15 +5,15 @@
 </template>
 
 <script lang="ts">
-import SvgSld from '@/components/SvgSld.vue';
+import SvgSld from "@/components/SvgSld.vue";
 
 export default {
-  name: 'HelloWorld',
-  components: {SvgSld},
+  name: "HelloWorld",
+  components: { SvgSld },
   props: {
     msg: String
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
