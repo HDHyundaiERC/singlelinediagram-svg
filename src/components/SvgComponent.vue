@@ -29,12 +29,16 @@ export default Vue.extend({
       return `0 0 ${this.width} ${this.height}`;
     }
   },
+
   mounted() {
-    this.$emit("update-size", { width: this.width, height: this.height });
+    this.emmitSize();
   },
   methods: {
     resize: function() {
-      this.height *= 1.5;
+      this.width *= 1.1;
+      this.emmitSize();
+    },
+    emmitSize: function() {
       this.$emit("update-size", { width: this.width, height: this.height });
     }
   }

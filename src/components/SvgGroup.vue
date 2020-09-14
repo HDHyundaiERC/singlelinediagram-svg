@@ -21,6 +21,7 @@
 <script lang="ts">
 import Vue from "vue";
 import SvgComponent from "@/components/SvgComponent.vue";
+import { ComponentSize } from "@/models";
 
 export default Vue.extend({
   name: "svg-group",
@@ -34,9 +35,12 @@ export default Vue.extend({
         },
         {
           color: "blue"
+        },
+        {
+          color: "red"
         }
       ],
-      sizes: {}
+      sizes: {} as { [index: string]: ComponentSize }
     };
   },
   computed: {
@@ -76,6 +80,10 @@ export default Vue.extend({
       size: { width: number; height: number }
     ) {
       Vue.set(this.sizes, index, size);
+      this.emmitSize();
+    },
+    emmitSize: function() {
+      this.$emit("update-size", { width: this.width, height: this.height });
     }
   }
 });
