@@ -17,7 +17,11 @@ import Vue from "vue";
 
 export default Vue.extend({
   name: "svg-component",
-  props: { x: Number, y: Number, color: String },
+  props: {
+    x: { type: Number },
+    y: { type: Number },
+    color: { type: String, default: "black" }
+  },
   data: function() {
     return {
       height: 25,
@@ -39,7 +43,10 @@ export default Vue.extend({
       this.emmitSize();
     },
     emmitSize: function() {
-      this.$emit("update-size", { width: this.width, height: this.height });
+      this.$emit("update-size", {
+        width: this.width,
+        height: this.height
+      });
     }
   }
 });

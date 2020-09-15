@@ -1,16 +1,55 @@
 <template>
   <div id="app">
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <svg-sld :system="system">
+      <template v-slot:component="slotProps">
+        <svg-component
+          :x="slotProps.x"
+          :y="slotProps.y"
+          :color="slotProps.component.color"
+          @update-size="slotProps.updatesize"
+        />
+      </template>
+    </svg-sld>
   </div>
 </template>
 
 <script lang="ts">
-import HelloWorld from "./components/HelloWorld.vue";
+import SvgSld from "@/components/SvgSld.vue";
+import { SldSystem } from "@/models";
+import SvgComponent from "@/components/SvgComponent.vue";
+
+interface TestComponent {
+  color: string;
+}
 
 export default {
   name: "App",
   components: {
-    HelloWorld
+    SvgSld,
+    SvgComponent
+  },
+  data() {
+    return {
+      system: {
+        switchboards: [
+          {
+            consumers: [],
+            producers: [
+              {
+                components: [
+                  {
+                    color: "green"
+                  },
+                  {
+                    color: "blue"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      } as SldSystem<TestComponent>
+    };
   }
 };
 </script>
