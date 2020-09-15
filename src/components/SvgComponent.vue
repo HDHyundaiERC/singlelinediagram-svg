@@ -20,7 +20,7 @@ export default Vue.extend({
   props: {
     x: { type: Number },
     y: { type: Number },
-    color: { type: String, default: "black" }
+    color: { type: String }
   },
   data: function() {
     return {
@@ -35,14 +35,14 @@ export default Vue.extend({
   },
 
   mounted() {
-    this.emmitSize();
+    this.emitSize();
   },
   methods: {
     resize: function() {
       this.width *= 1.1;
-      this.emmitSize();
+      this.emitSize();
     },
-    emmitSize: function() {
+    emitSize: function() {
       this.$emit("update-size", {
         width: this.width,
         height: this.height

@@ -19,9 +19,8 @@ import Vue from "vue";
 import { VerticalGroup } from "@/mixins/Group";
 import { Component, Prop } from "vue-property-decorator";
 import { SldComponentGroup } from "@/models";
-import SvgComponent from "@/components/SvgComponent.vue";
 
-@Component({ mixins: [VerticalGroup], components: { SvgComponent } })
+@Component({ mixins: [VerticalGroup] })
 export default class SvgGroup<T> extends Vue {
   @Prop({ default: () => 0 }) x!: number;
   @Prop({ default: () => 0 }) y!: number;

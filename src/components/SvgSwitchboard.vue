@@ -7,13 +7,11 @@
     :width="width"
     ref="root"
   >
-    <svg-group
-      v-for="(group, index) of subElements"
-      :key="index"
-      :x="xComponents[index]"
-      :y="0"
-      :group="group"
-      @update-size="updateSize(index, $event)"
+    <svg-horizontal-group
+      :x="0"
+      :y="yComponents[0]"
+      :group="switchboard.producers"
+      @update-size="updateSize(0, $event)"
     >
       <template v-slot:component="slotProp">
         <slot
@@ -24,25 +22,51 @@
           :updatesize="slotProp.updatesize"
         ></slot>
       </template>
-    </svg-group>
+    </svg-horizontal-group>
+    <svg-switchboard-line
+      :width="width"
+      :x="0"
+      :y="yComponents[1]"
+      @update-size="updateSize(1, $event)"
+    />
+    <svg-horizontal-group
+      :x="0"
+      :y="yComponents[2]"
+      :group="switchboard.consumers"
+      @update-size="updateSize(2, $event)"
+    >
+      <template v-slot:component="slotProp">
+        <slot
+          name="component"
+          :x="slotProp.x"
+          :y="slotProp.y"
+          :component="slotProp.component"
+          :updatesize="slotProp.updatesize"
+        ></slot>
+      </template>
+    </svg-horizontal-group>
   </svg>
 </template>
 
 <script lang="ts">
-import SvgGroup from "./SvgGroup.vue";
 import Vue from "vue";
-import { HorizontalGroup } from "@/mixins/Group";
+import { VerticalGroup } from "@/mixins/Group";
 import { Component, Prop } from "vue-property-decorator";
 import { SldSwitchboard } from "@/models";
+import SvgHorizontalGroup from "@/components/SvgHorizontalGroup.vue";
+import SvgSwitchboardLine from "@/components/SvgSwitchboardLine.vue";
 
-@Component({ components: { SvgGroup }, mixins: [HorizontalGroup] })
+@Component({
+  components: { SvgSwitchboardLine, SvgHorizontalGroup },
+  mixins: [VerticalGroup]
+})
 export default class SvgSwitchboard<T> extends Vue {
   @Prop({ default: () => 0 }) x!: number;
   @Prop({ default: () => 0 }) y!: number;
   @Prop() switchboard!: SldSwitchboard<T>;
 
   get subElements() {
-    return this.switchboard.producers;
+    return [this.switchboard.producers, {}, this.switchboard.consumers];
   }
 }
 </script>

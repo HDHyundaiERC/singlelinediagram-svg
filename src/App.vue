@@ -33,7 +33,18 @@ export default {
       system: {
         switchboards: [
           {
-            consumers: [],
+            consumers: [
+              {
+                components: [
+                  {
+                    color: "red"
+                  },
+                  {
+                    color: "yellow"
+                  }
+                ]
+              }
+            ],
             producers: [
               {
                 components: [

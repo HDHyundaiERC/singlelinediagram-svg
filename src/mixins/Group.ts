@@ -47,9 +47,9 @@ export const VerticalGroup = Vue.extend({
       size: { width: number; height: number }
     ) {
       Vue.set(this.sizes, index, size);
-      this.emmitSize();
+      this.emitSize();
     },
-    emmitSize: function() {
+    emitSize: function() {
       this.$emit("update-size", { width: this.width, height: this.height });
     }
   }
@@ -101,9 +101,9 @@ export const HorizontalGroup = Vue.extend({
       size: { width: number; height: number }
     ) {
       Vue.set(this.sizes, index, size);
-      this.emmitSize();
+      this.emitSize();
     },
-    emmitSize: function() {
+    emitSize: function() {
       this.$emit("update-size", { width: this.width, height: this.height });
     }
   }
