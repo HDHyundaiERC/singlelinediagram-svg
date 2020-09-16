@@ -1,5 +1,13 @@
 <template>
-  <svg :viewBox="viewBox" :x="x" :y="y" :height="height" :width="width">
+  <svg
+    :viewBox="viewBox"
+    :x="x"
+    :y="y"
+    :height="height"
+    :width="width"
+    @contextmenu.prevent="makeSmaller"
+    @click="resize"
+  >
     <rect
       x="0"
       y="0"
@@ -8,7 +16,6 @@
       :fill="color"
       stroke="black"
       stroke-width="1"
-      @click="resize"
     />
   </svg>
 </template>
@@ -20,7 +27,8 @@ export default Vue.extend({
   props: {
     x: { type: Number },
     y: { type: Number },
-    color: { type: String }
+    color: { type: String },
+    componentData: {}
   },
   data: function() {
     return {
@@ -41,6 +49,9 @@ export default Vue.extend({
     resize: function() {
       this.width *= 1.1;
       this.emitSize();
+    },
+    makeSmaller: function() {
+      this.$emit("left-click", this.componentData);
     },
     emitSize: function() {
       this.$emit("update-size", {

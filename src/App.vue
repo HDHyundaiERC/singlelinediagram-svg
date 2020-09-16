@@ -6,7 +6,9 @@
           :x="slotProps.x"
           :y="slotProps.y"
           :color="slotProps.component.color"
+          :component-data="slotProps.component"
           @update-size="slotProps.updatesize"
+          @left-click="onLeftClick"
         />
       </template>
     </svg-sld>
@@ -16,7 +18,7 @@
 <script lang="ts">
 import SvgSld from "@/components/SvgSld.vue";
 import { SldSystem } from "@/models";
-import SvgComponent from "@/components/SvgComponent.vue";
+import SvgComponent from "@/SvgComponent.vue";
 
 interface TestComponent {
   color: string;
@@ -61,6 +63,11 @@ export default {
         ]
       } as SldSystem<TestComponent>
     };
+  },
+  methods: {
+    onLeftClick: function(e: TestComponent) {
+      console.log("Left click", e.color);
+    }
   }
 };
 </script>

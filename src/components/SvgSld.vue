@@ -1,6 +1,8 @@
 <template>
   <svg
-    viewBox="0 0 1000 1000"
+    :viewBox="viewBox"
+    :width="width + 'mm'"
+    :height="height + 'mm'"
     xmlns="http://www.w3.org/2000/svg"
     class="single-line-diagram"
   >
@@ -43,9 +45,3 @@ export default class SvgSld<T> extends Vue {
   }
 }
 </script>
-<style>
-.single-line-diagram {
-  height: 10000px;
-  width: 10000px;
-}
-</style>

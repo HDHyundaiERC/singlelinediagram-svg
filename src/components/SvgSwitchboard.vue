@@ -3,8 +3,8 @@
     :viewBox="viewBox"
     :x="x"
     :y="y"
-    :height="height"
     :width="width"
+    :height="height"
     ref="root"
   >
     <svg-horizontal-group
@@ -70,9 +70,3 @@ export default class SvgSwitchboard<T> extends Vue {
   }
 }
 </script>
-<style>
-.single-line-diagram {
-  height: 10000px;
-  width: 10000px;
-}
-</style>
