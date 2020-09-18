@@ -1,3 +1,5 @@
+Component to draw switchboard line
+
 <template>
   <svg :viewBox="viewBox" :x="x" :y="y" :height="height" :width="width">
     <rect

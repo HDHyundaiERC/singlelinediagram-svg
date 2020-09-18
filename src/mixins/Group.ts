@@ -1,3 +1,15 @@
+/** Mixins for grouping subElements into component vertical or horizontal
+
+    Defines:
+    - viewBox: svg viewbox size
+    - width: svg width
+    - height: svg width
+    - xComponents/yComponents: number[] x/y-position of each subElement
+    - updateSize(): listens to size change of subElements
+    - emitSize(): emit size of this component to parent component.
+ *
+ */
+
 import Vue from "vue";
 import { ComponentSize } from '@/models';
 

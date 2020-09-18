@@ -1,3 +1,7 @@
+Component containing the switchboard with producers, consumers and switchboard line.
+
+Using mixin VerticalGroup
+
 <template>
   <svg
     :viewBox="viewBox"

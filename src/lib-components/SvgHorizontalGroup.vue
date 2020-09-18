@@ -1,3 +1,7 @@
+Horizontal group of vertical component group.
+
+For instance consumer groups, where each consumer group is a group of components.
+
 <template>
   <svg :viewBox="viewBox" :x="x" :y="y" :height="height" :width="width">
     <svg-group

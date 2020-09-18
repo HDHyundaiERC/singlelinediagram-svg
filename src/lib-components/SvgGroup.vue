@@ -1,3 +1,7 @@
+Vertical component group.
+
+Using mixin VerticalGroup
+
 <template>
   <svg :viewBox="viewBox" :x="x" :y="y" :height="height" :width="width">
     <g v-for="(component, index) of subElements" v-bind:key="index">

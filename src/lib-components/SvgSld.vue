@@ -1,3 +1,13 @@
+Main component for Single line diagram
+
+Uses HorizontalGroup-mixins, which defines:
+- viewBox
+- width
+- height
+- xComponents: number[] x position of each subElement
+- updateSize(): listens to size change of subElements
+- emitSize(): emit size of this component to parent component.
+
 <template>
   <svg
       :viewBox="viewBox"
