@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { ComponentSize } from "@/models";
+import { ComponentSize } from '@/models';
 
 export const VerticalGroup = Vue.extend({
   data: function() {

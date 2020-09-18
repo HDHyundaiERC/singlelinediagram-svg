@@ -49,24 +49,21 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { VerticalGroup } from "@/mixins/Group";
-import { Component, Prop } from "vue-property-decorator";
-import { SldSwitchboard } from "@/models";
-import SvgHorizontalGroup from "@/components/SvgHorizontalGroup.vue";
-import SvgSwitchboardLine from "@/components/SvgSwitchboardLine.vue";
+import Vue from 'vue';
+import { VerticalGroup } from '@/mixins/Group';
+import SvgHorizontalGroup from './SvgHorizontalGroup.vue';
+import SvgSwitchboardLine from './SvgSwitchboardLine.vue';
 
-@Component({
+export default Vue.extend({
+  name: 'SvgSwitchboard',
+  mixins: [VerticalGroup],
   components: { SvgSwitchboardLine, SvgHorizontalGroup },
-  mixins: [VerticalGroup]
-})
-export default class SvgSwitchboard<T> extends Vue {
-  @Prop({ default: () => 0 }) x!: number;
-  @Prop({ default: () => 0 }) y!: number;
-  @Prop() switchboard!: SldSwitchboard<T>;
-
-  get subElements() {
-    return [this.switchboard.producers, {}, this.switchboard.consumers];
+  props: { x: Number, y: Number, switchboard: { type: Object } },
+  computed: {
+    subElements() {
+      // @ts-ignore
+      return [this.switchboard.producers, {}, this.switchboard.consumers];
+    }
   }
-}
+})
 </script>

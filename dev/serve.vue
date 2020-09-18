@@ -16,16 +16,17 @@
 </template>
 
 <script lang="ts">
-import SvgSld from "@/components/SvgSld.vue";
-import { SldSystem } from "@/models";
-import SvgComponent from "@/SvgComponent.vue";
+import Vue from 'vue';
+import { SvgSld } from '@/entry';
+import { SldSystem } from '@/models';
+import SvgComponent from './SvgComponent.vue';
 
 interface TestComponent {
   color: string;
 }
 
-export default {
-  name: "App",
+export default Vue.extend({
+  name: 'ServeDev',
   components: {
     SvgSld,
     SvgComponent
@@ -69,16 +70,7 @@ export default {
       console.log("Left click", e.color);
     }
   }
-};
+});
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+
