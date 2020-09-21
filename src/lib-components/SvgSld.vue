@@ -62,7 +62,9 @@ export default Vue.extend({
     },
     height() {
       let maxHeight = 0;
+      // @ts-ignore
       for (const i of Object.keys(this.sizes)) {
+        // @ts-ignore
         maxHeight = Math.max(maxHeight, this.sizes[i].height + this.yPosition[i])
       }
       return maxHeight;

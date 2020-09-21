@@ -71,7 +71,9 @@ export default Vue.extend({
   },
   methods: {
     emitSize: function() {
+      // @ts-ignore
       this.$emit("update-size", { width: this.width, height: this.height });
+      // @ts-ignore
       this.$emit("update-switchboard-y", this.yComponents[1])
     }
   }
