@@ -19,6 +19,9 @@ export const VerticalGroup = Vue.extend({
       sizes: {} as { [index: string]: ComponentSize }
     };
   },
+  mounted() {
+    this.emitSize();
+  },
   computed: {
     subElements: function() {
       return [];
@@ -72,6 +75,9 @@ export const HorizontalGroup = Vue.extend({
     return {
       sizes: {} as { [index: string]: ComponentSize }
     };
+  },
+  mounted() {
+    this.emitSize();
   },
   computed: {
     subElements: function() {
