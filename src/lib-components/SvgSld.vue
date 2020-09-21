@@ -37,10 +37,12 @@ Uses HorizontalGroup-mixins, which defines:
           ></slot>
         </template>
       </svg-switchboard>
-      <breaker @update-size="updateSize(index*2 + 1, $event)"
-               :x="xComponents[index*2 + 1]"
-               :y="yPosition[index*2 + 1]"
-               @update-switchboard-y="updateVAlignment(index*2 + 1, $event)"
+      <breaker
+          v-if="index !== system.switchboards.length - 1"
+          @update-size="updateSize(index*2 + 1, $event)"
+          :x="xComponents[index*2 + 1]"
+          :y="yPosition[index*2 + 1]"
+          @update-switchboard-y="updateVAlignment(index*2 + 1, $event)"
       />
     </g>
   </svg>
@@ -70,9 +72,8 @@ export default Vue.extend({
     }
   },
   computed: {
-    subElements() {
-      // @ts-ignore
-      return [[],[],[],[],[],[]];
+    nSubElements() {
+      return this.system.switchboards.length * 2 - 1;
     },
     height() {
       let maxHeight = 0;
@@ -86,8 +87,11 @@ export default Vue.extend({
   },
   methods: {
     updateVAlignment: function (index: number, event: number) {
+      // @ts-ignore
       this.ySwitchboardPosition[index] = event;
+      // @ts-ignore
       const yMax = Math.max(...this.ySwitchboardPosition)
+      // @ts-ignore
       this.yPosition = this.ySwitchboardPosition.map(v => (yMax - v));
     }
   }

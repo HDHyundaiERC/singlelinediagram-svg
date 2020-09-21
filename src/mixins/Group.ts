@@ -23,16 +23,16 @@ export const VerticalGroup = Vue.extend({
     this.emitSize();
   },
   computed: {
-    subElements: function() {
-      return [];
+    nSubElements: function() {
+      return 0;
     },
     viewBox: function(): string {
       return `0 0 ${this.width} ${this.height}`;
     },
     yComponents: function(): number[] {
       const componentsIds = Object.keys(this.sizes);
-      if (componentsIds.length !== this.subElements.length) {
-        return this.subElements.map(() => 0);
+      if (componentsIds.length !== this.nSubElements) {
+        return new Array(this.nSubElements).fill(0);
       }
       let y = 0;
       const yComp = [];
@@ -77,16 +77,16 @@ export const HorizontalGroup = Vue.extend({
     this.emitSize();
   },
   computed: {
-    subElements: function() {
-      return [];
+    nSubElements: function() {
+      return 0;
     },
     viewBox: function(): string {
       return `0 0 ${this.width} ${this.height}`;
     },
     xComponents: function(): number[] {
       const componentsIds = Object.keys(this.sizes);
-      if (componentsIds.length !== this.subElements.length) {
-        return this.subElements.map(() => 0);
+      if (componentsIds.length !== this.nSubElements) {
+        return new Array(this.nSubElements).fill(0);
       }
       let x = 0;
       const xComp = [];

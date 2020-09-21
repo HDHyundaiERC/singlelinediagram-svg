@@ -17,6 +17,5 @@ export interface SldComponentGroup<T> {
 }
 
 export interface SldConfiguration {
-  xSpacingBetweenSwitchboards: number
   switchboardThickness: number
 }

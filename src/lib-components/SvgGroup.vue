@@ -4,7 +4,7 @@ Using mixin VerticalGroup
 
 <template>
   <svg :viewBox="viewBox" :x="x" :y="y" :height="height" :width="width">
-    <g v-for="(component, index) of subElements" v-bind:key="index">
+    <g v-for="(component, index) of group.components" v-bind:key="index">
       <slot
         name="component"
         :x="0"
@@ -25,9 +25,9 @@ export default Vue.extend({
   mixins: [VerticalGroup],
   props: {x: Number,y: Number,group: { type: Object }},
   computed: {
-    subElements() {
+    nSubElements() {
       // @ts-ignore
-      return this.group.components;
+      return this.group.components.length;
     }
   }
 })

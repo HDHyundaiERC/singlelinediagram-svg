@@ -34,7 +34,6 @@ export default Vue.extend({
   data() {
     return {
       sldCfg: {
-        xSpacingBetweenSwitchboards: 10,
         switchboardThickness: 2
       },
       system: {

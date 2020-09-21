@@ -71,9 +71,8 @@ export default Vue.extend({
     sldConfiguration: { type: Object, required: true }
   },
   computed: {
-    subElements() {
-      // @ts-ignore
-      return [this.switchboard.producers, {}, this.switchboard.consumers];
+    nSubElements() {
+      return 3;
     }
   },
   methods: {

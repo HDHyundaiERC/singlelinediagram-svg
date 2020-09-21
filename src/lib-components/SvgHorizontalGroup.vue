@@ -5,11 +5,11 @@ For instance consumer groups, where each consumer group is a group of components
 <template>
   <svg :viewBox="viewBox" :x="x" :y="y" :height="height" :width="width">
     <svg-group
-        v-for="(group, index) of subElements"
+        v-for="(g, index) of group"
         :key="index"
         :x="xComponents[index]"
         :y="yPosition[index]"
-        :group="group"
+        :group="g"
         @update-size="updateSize(index, $event)"
     >
       <template v-slot:component="slotProp">
@@ -42,15 +42,17 @@ export default Vue.extend({
     alignBottom: { type: Boolean, default: false }
   },
   computed: {
-    subElements() {
+    nSubElements() {
       // @ts-ignore
-      return this.group;
+      return this.group.length;
     },
     yPosition() {
       if (this.alignBottom) {
         const heightMax = Math.max(...Object.values(this.sizes).map(v => v.height));
+        // @ts-ignore
         return Object.values(this.sizes).map(v => heightMax - v.height)
       } else {
+        // @ts-ignore
         return Object.values(this.sizes).map(v => 0)
       }
     }
