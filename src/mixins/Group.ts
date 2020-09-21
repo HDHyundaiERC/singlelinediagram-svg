@@ -44,10 +44,7 @@ export const VerticalGroup = Vue.extend({
       return yComp;
     },
     width: function(): number {
-      return Object.values(this.sizes).reduce(
-        (oldWidth, size) => Math.max(oldWidth, size.width),
-        0
-      );
+      return Math.max(0,...Object.values(this.sizes).map(size => size.width));
     },
     height: function(): number {
       return Object.values(this.sizes).reduce(
@@ -101,10 +98,7 @@ export const HorizontalGroup = Vue.extend({
       return xComp;
     },
     height: function(): number {
-      return Object.values(this.sizes).reduce(
-        (oldHeight, size) => Math.max(oldHeight, size.height),
-        0
-      );
+      return Math.max(0,...Object.values(this.sizes).map(size => size.height));
     },
     width: function(): number {
       return Object.values(this.sizes).reduce(

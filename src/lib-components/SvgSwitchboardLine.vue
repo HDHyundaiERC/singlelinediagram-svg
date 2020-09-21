@@ -19,9 +19,9 @@ import Vue from 'vue';
 
 export default Vue.extend({
   name: 'SvgSwitchboardLine',
-  props: { x: Number, y: Number, width: Number },
+  props: { x: Number, y: Number, width: Number, thickness: Number },
   data() {
-    return { height: 4 };
+    return { height: this.thickness };
   },
   mounted: function () {
     this.emitSize();

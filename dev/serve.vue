@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <svg-sld :system="system">
+    <svg-sld :system="system" :sld-configuration="sldCfg">
       <template v-slot:component="slotProps">
         <svg-component
             :x="slotProps.x"
@@ -33,6 +33,10 @@ export default Vue.extend({
   },
   data() {
     return {
+      sldCfg: {
+        xSpacingBetweenSwitchboards: 10,
+        switchboardThickness: 2
+      },
       system: {
         switchboards: [
           {
