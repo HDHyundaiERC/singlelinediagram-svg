@@ -14,6 +14,7 @@ Using mixin VerticalGroup
     <svg-horizontal-group
       :x="0"
       :y="yComponents[0]"
+      :alignBottom="true"
       :group="switchboard.producers"
       @update-size="updateSize(0, $event)"
     >

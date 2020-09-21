@@ -8,7 +8,7 @@ For instance consumer groups, where each consumer group is a group of components
         v-for="(group, index) of subElements"
         :key="index"
         :x="xComponents[index]"
-        :y="0"
+        :y="yPosition[index]"
         :group="group"
         @update-size="updateSize(index, $event)"
     >
@@ -35,11 +35,24 @@ export default Vue.extend({
   name: 'SvgHorizontalGroup',
   mixins: [HorizontalGroup],
   components: { SvgGroup },
-  props: { x: Number, y: Number, group: { type: Array } },
+  props: {
+    x: Number,
+    y: Number,
+    group: { type: Array },
+    alignBottom: { type: Boolean, default: false }
+  },
   computed: {
     subElements() {
       // @ts-ignore
       return this.group;
+    },
+    yPosition() {
+      if (this.alignBottom) {
+        const heightMax = Math.max(...Object.values(this.sizes).map(v => v.height));
+        return Object.values(this.sizes).map(v => heightMax - v.height)
+      } else {
+        return Object.values(this.sizes).map(v => 0)
+      }
     }
   }
 })

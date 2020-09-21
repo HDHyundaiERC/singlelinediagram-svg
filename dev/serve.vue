@@ -58,6 +58,13 @@ export default Vue.extend({
                     color: 'blue'
                   }
                 ]
+              },
+              {
+                components: [
+                  {
+                    color: 'green'
+                  }
+                ]
               }
             ]
           },
