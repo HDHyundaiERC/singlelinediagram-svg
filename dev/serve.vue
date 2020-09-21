@@ -3,12 +3,12 @@
     <svg-sld :system="system">
       <template v-slot:component="slotProps">
         <svg-component
-          :x="slotProps.x"
-          :y="slotProps.y"
-          :color="slotProps.component.color"
-          :component-data="slotProps.component"
-          @update-size="slotProps.updatesize"
-          @left-click="onLeftClick"
+            :x="slotProps.x"
+            :y="slotProps.y"
+            :color="slotProps.component.color"
+            :component-data="slotProps.component"
+            @update-size="slotProps.updatesize"
+            @left-click="onLeftClick"
         />
       </template>
     </svg-sld>
@@ -40,10 +40,10 @@ export default Vue.extend({
               {
                 components: [
                   {
-                    color: "red"
+                    color: 'red'
                   },
                   {
-                    color: "yellow"
+                    color: 'yellow'
                   }
                 ]
               }
@@ -52,10 +52,54 @@ export default Vue.extend({
               {
                 components: [
                   {
-                    color: "green"
+                    color: 'green'
                   },
                   {
-                    color: "blue"
+                    color: 'blue'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            consumers: [
+              {
+                components: [
+                  {
+                    color: 'red'
+                  },
+                  {
+                    color: 'yellow'
+                  }
+                ]
+              }
+            ],
+            producers: [
+              {}
+            ]
+          },
+          {
+            consumers: [
+              {
+                components: [
+                  {
+                    color: 'red'
+                  },
+                  {
+                    color: 'yellow'
+                  },
+                  {
+                    color: 'green'
+                  }
+                ]
+              }
+            ],
+            producers: [
+              {
+                components: [
+
+                  {
+                    color: 'blue'
                   }
                 ]
               }
@@ -66,8 +110,8 @@ export default Vue.extend({
     };
   },
   methods: {
-    onLeftClick: function(e: TestComponent) {
-      console.log("Left click", e.color);
+    onLeftClick: function (e: TestComponent) {
+      console.log('Left click', e.color);
     }
   }
 });
