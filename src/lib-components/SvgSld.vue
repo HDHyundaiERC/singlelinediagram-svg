@@ -20,9 +20,10 @@ Uses HorizontalGroup-mixins, which defines:
         v-for="(group, index) of subElements"
         :key="index"
         :x="xComponents[index]"
-        :y="0"
+        :y="yPosition[index]"
         :switchboard="group"
         @update-size="updateSize(index, $event)"
+        @update-switchboard-y="updateVAlignment(index, $event)"
     >
       <template v-slot:component="slotProp">
         <slot
@@ -48,10 +49,30 @@ export default Vue.extend({
   mixins: [HorizontalGroup],
   components: { SvgSwitchboard },
   props: { x: Number, y: Number, system: { type: Object } },
+  data: function() {
+    return {
+      ySwitchboardPosition: [] as number[],
+      yPosition: [] as number[]
+    }
+  },
   computed: {
     subElements() {
       // @ts-ignore
       return this.system.switchboards;
+    },
+    height() {
+      let maxHeight = 0;
+      for (const i of Object.keys(this.sizes)) {
+        maxHeight = Math.max(maxHeight, this.sizes[i].height + this.yPosition[i])
+      }
+      return maxHeight;
+    }
+  },
+  methods: {
+    updateVAlignment: function (index: number, event: number) {
+      this.ySwitchboardPosition[index] = event;
+      const yMax = Math.max(...this.ySwitchboardPosition)
+      this.yPosition = this.ySwitchboardPosition.map(v => (yMax - v));
     }
   }
 })

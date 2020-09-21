@@ -68,6 +68,12 @@ export default Vue.extend({
       // @ts-ignore
       return [this.switchboard.producers, {}, this.switchboard.consumers];
     }
+  },
+  methods: {
+    emitSize: function() {
+      this.$emit("update-size", { width: this.width, height: this.height });
+      this.$emit("update-switchboard-y", this.yComponents[1])
+    }
   }
 })
 </script>
