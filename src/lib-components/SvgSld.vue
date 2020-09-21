@@ -16,26 +16,33 @@ Uses HorizontalGroup-mixins, which defines:
       xmlns="http://www.w3.org/2000/svg"
       class="single-line-diagram"
   >
-    <svg-switchboard
-        v-for="(group, index) of subElements"
-        :key="index"
-        :x="xComponentsWithSpace[index]"
-        :y="yPosition[index]"
-        :switchboard="group"
-        :sld-configuration="sldConfiguration"
-        @update-size="updateSize(index, $event)"
-        @update-switchboard-y="updateVAlignment(index, $event)"
-    >
-      <template v-slot:component="slotProp">
-        <slot
-            name="component"
-            :x="slotProp.x"
-            :y="slotProp.y"
-            :component="slotProp.component"
-            :updatesize="slotProp.updatesize"
-        ></slot>
-      </template>
-    </svg-switchboard>
+    <g v-for="(group, index) of system.switchboards"
+       :key="index">
+      <svg-switchboard
+
+          :x="xComponents[index*2]"
+          :y="yPosition[index*2]"
+          :switchboard="group"
+          :sld-configuration="sldConfiguration"
+          @update-size="updateSize(index*2, $event)"
+          @update-switchboard-y="updateVAlignment(index*2, $event)"
+      >
+        <template v-slot:component="slotProp">
+          <slot
+              name="component"
+              :x="slotProp.x"
+              :y="slotProp.y"
+              :component="slotProp.component"
+              :updatesize="slotProp.updatesize"
+          ></slot>
+        </template>
+      </svg-switchboard>
+      <breaker @update-size="updateSize(index*2 + 1, $event)"
+               :x="xComponents[index*2 + 1]"
+               :y="yPosition[index*2 + 1]"
+               @update-switchboard-y="updateVAlignment(index*2 + 1, $event)"
+      />
+    </g>
   </svg>
 </template>
 
@@ -44,16 +51,17 @@ import { HorizontalGroup } from '@/mixins/Group';
 import SvgSwitchboard from '@/lib-components/SvgSwitchboard.vue';
 
 import Vue from 'vue';
+import Breaker from '@/lib-components/breaker.vue';
 
 export default Vue.extend({
   name: 'SvgSld',
   mixins: [HorizontalGroup],
-  components: { SvgSwitchboard },
+  components: { Breaker, SvgSwitchboard },
   props: {
     x: Number,
     y: Number,
     system: { type: Object },
-    sldConfiguration: { type: Object, required: true}
+    sldConfiguration: { type: Object, required: true }
   },
   data: function () {
     return {
@@ -64,7 +72,7 @@ export default Vue.extend({
   computed: {
     subElements() {
       // @ts-ignore
-      return this.system.switchboards;
+      return [[],[],[],[],[],[]];
     },
     height() {
       let maxHeight = 0;
@@ -74,23 +82,6 @@ export default Vue.extend({
         maxHeight = Math.max(maxHeight, this.sizes[i].height + this.yPosition[i])
       }
       return maxHeight;
-    },
-    xComponentsWithSpace() {
-      return this.xComponents.map((x, i) => {
-        return x + this.sldConfiguration.xSpacingBetweenSwitchboards*i
-      })
-    },
-    width: function(): number {
-      return Object.values(this.sizes).reduce(
-        (sumWidth, size, index) => {
-          let width = size.width;
-          if (index > 0) {
-            width += this.sldConfiguration.xSpacingBetweenSwitchboards;
-          }
-          return sumWidth + width
-        },
-        0
-      );
     }
   },
   methods: {
