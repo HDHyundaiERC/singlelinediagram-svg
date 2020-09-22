@@ -2,10 +2,10 @@
   <div id="app">
     <svg-sld :system="system" :sld-configuration="sldCfg">
       <template v-slot:component="slotProps">
-        <svg-component
+        <sld-component
             :x="slotProps.x"
             :y="slotProps.y"
-            :color="slotProps.component.color"
+            :type="slotProps.component.type"
             :component-data="slotProps.component"
             @update-size="slotProps.updatesize"
             @left-click="onLeftClick"
@@ -19,22 +19,22 @@
 import Vue from 'vue';
 import { SvgSld } from '@/entry';
 import { SldSystem } from '@/models';
-import SvgComponent from './SvgComponent.vue';
+import SldComponent from './SldComponent.vue';
 
 interface TestComponent {
-  color: string;
+  type: string;
 }
 
 export default Vue.extend({
   name: 'ServeDev',
   components: {
     SvgSld,
-    SvgComponent
+    SldComponent
   },
   data() {
     return {
       sldCfg: {
-        switchboardThickness: 2
+        switchboardThickness: 5
       },
       system: {
         switchboards: [
@@ -43,10 +43,24 @@ export default Vue.extend({
               {
                 components: [
                   {
-                    color: 'red'
+                    type: 'DCAC'
                   },
                   {
-                    color: 'yellow'
+                    type: 'Motor'
+                  },
+                  {
+                    type: 'ConsumerText',
+                    text: 'Propeller'
+                  }
+                ]
+              },{
+                components: [
+                  {
+                    type: 'DCAC'
+                  },
+                  {
+                    type: 'ConsumerText',
+                    text: 'Hotel'
                   }
                 ]
               }
@@ -55,51 +69,72 @@ export default Vue.extend({
               {
                 components: [
                   {
-                    color: 'green'
+                    type: 'ACDC'
                   },
                   {
-                    color: 'blue'
+                    type: 'Generator'
+                  },
+                  {
+                    type: 'Engine'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            consumers: [
+              {
+                components: [
+                  {
+                    type: 'DCAC'
+                  },
+                  {
+                    type: 'Motor'
+                  },
+                  {
+                    type: 'ConsumerText',
+                    text: 'Propeller'
+                  }
+                ]
+              }
+            ],
+            producers: [
+              {
+                components: [
+                  {
+                    type: 'ACDC'
+                  },
+                  {
+                    type: 'Generator'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            consumers: [
+              {
+                components: [
+                  {
+                    type: 'DCAC'
+                  },
+                  {
+                    type: 'Motor'
+                  },
+                  {
+                    type: 'ConsumerText',
+                    text: 'Propeller'
                   }
                 ]
               },
               {
                 components: [
                   {
-                    color: 'green'
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            consumers: [
-              {
-                components: [
-                  {
-                    color: 'red'
+                    type: 'DCAC'
                   },
                   {
-                    color: 'yellow'
-                  }
-                ]
-              }
-            ],
-            producers: [
-              {}
-            ]
-          },
-          {
-            consumers: [
-              {
-                components: [
-                  {
-                    color: 'red'
-                  },
-                  {
-                    color: 'yellow'
-                  },
-                  {
-                    color: 'green'
+                    type: 'ConsumerText',
+                    text: 'Hotel'
                   }
                 ]
               }
@@ -107,13 +142,22 @@ export default Vue.extend({
             producers: [
               {
                 components: [
-
+{
+                    type: 'ACDC'
+                  },
                   {
-                    color: 'blue'
+                    type: 'Generator'
+                  },
+                  {
+                    type: 'Engine'
                   }
                 ]
               }
             ]
+          },
+          {
+            producers: [],
+            consumers: []
           }
         ]
       } as SldSystem<TestComponent>
@@ -121,7 +165,7 @@ export default Vue.extend({
   },
   methods: {
     onLeftClick: function (e: TestComponent) {
-      console.log('Left click', e.color);
+      console.log('Left click', e.type);
     }
   }
 });

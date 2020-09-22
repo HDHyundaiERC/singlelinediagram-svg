@@ -10,6 +10,7 @@ For instance consumer groups, where each consumer group is a group of components
         :x="xComponents[index]"
         :y="yPosition[index]"
         :group="g"
+        :reverse-order="alignBottom"
         @update-size="updateSize(index, $event)"
     >
       <template v-slot:component="slotProp">

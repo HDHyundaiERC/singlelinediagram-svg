@@ -34,7 +34,7 @@ export default Vue.extend({
   methods: {
     emitSize: function () {
       this.$emit('update-size', {
-        width: 0,
+        width: this.height*10,
         height: this.height
       });
     }

@@ -5,35 +5,30 @@
     :y="y"
     :height="height"
     :width="width"
-    @contextmenu.prevent="makeSmaller"
-    @click="resize"
   >
-    <rect
-      x="0"
-      y="0"
-      :width="width"
-      :height="height"
-      :fill="color"
-      stroke="black"
-      stroke-width="1"
-    />
+    <svg :is="componentData.type" ref="svg"/>
   </svg>
 </template>
 <script lang="ts">
 import Vue from "vue";
+import Generator from "@/lib-components/component-symbols/generator.svg"
+import Engine from "@/lib-components/component-symbols/engine.svg"
+import ACDC from "@/lib-components/component-symbols/acdc.svg"
+import DCAC from "@/lib-components/component-symbols/dcac.svg"
+import Motor from "@/lib-components/component-symbols/motor.svg"
 
 export default Vue.extend({
   name: "svg-component",
+  components: {Generator, Engine, ACDC, DCAC, Motor},
   props: {
     x: { type: Number },
     y: { type: Number },
-    color: { type: String },
-    componentData: {}
+    componentData: {type: Object, required: true}
   },
   data: function() {
     return {
-      height: 25,
-      width: 30
+      height: 0,
+      width: 0
     };
   },
   computed: {
@@ -43,22 +38,18 @@ export default Vue.extend({
   },
 
   mounted() {
-    this.emitSize();
-  },
-  methods: {
-    resize: function() {
-      this.width *= 1.1;
-      this.emitSize();
-    },
-    makeSmaller: function() {
-      this.$emit("left-click", this.componentData);
-    },
-    emitSize: function() {
-      this.$emit("update-size", {
+    const svg = this.$refs.svg as SVGElement | undefined;
+    // @ts-ignore
+    if (svg !== undefined && svg.width !== undefined) {
+      // @ts-ignore
+      this.width = svg.width.baseVal.value;
+      // @ts-ignore
+      this.height = svg.height.baseVal.value;
+    }
+    this.$emit("update-size", {
         width: this.width,
         height: this.height
       });
-    }
-  }
+  },
 });
 </script>

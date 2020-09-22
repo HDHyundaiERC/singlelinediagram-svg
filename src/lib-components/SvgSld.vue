@@ -11,8 +11,8 @@ Uses HorizontalGroup-mixins, which defines:
 <template>
   <svg
       :viewBox="viewBox"
-      :width="width + 'mm'"
-      :height="height + 'mm'"
+      :width="width*scale + 'mm'"
+      :height="height*scale + 'mm'"
       xmlns="http://www.w3.org/2000/svg"
       class="single-line-diagram"
   >
@@ -62,6 +62,7 @@ export default Vue.extend({
   props: {
     x: Number,
     y: Number,
+    scale: {type: Number, default: .3},
     system: { type: Object },
     sldConfiguration: { type: Object, required: true }
   },
