@@ -17,8 +17,8 @@
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import ConsumerTextComponent from './ConsumerTextComponent.vue'
-import SvgComponent from './SvgComponent.vue';
+import ConsumerTextComponent from '@/lib-components/ConsumerTextComponent.vue'
+import SvgComponent from '@/lib-components/SvgComponent.vue';
 
 export default Vue.extend({
   name: 'sld-component',

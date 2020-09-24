@@ -10,7 +10,11 @@ Using mixin VerticalGroup
           :x="xPosition[index]"
           :y="yComponents[index]"
           :component="component"
+          :group="group.components"
+          :index="reverseOrder ? (group.components.length - 1 - index): index"
+          :above-switchboard="reverseOrder"
           :updatesize="e => updateSize(index, e)"
+          :delete="() => onDelete(index)"
       ></slot>
     </g>
   </svg>
@@ -37,14 +41,25 @@ export default Vue.extend({
     subElements() {
       let subElements = this.group.components;
       if (this.reverseOrder)
-        return subElements.reverse()
+        return [...subElements].reverse()
       else
         return subElements
     },
     xPosition() {
-      const widths: number[] = Object.values(this.sizes).map(v => v.width)
+      // @ts-ignore this.sizes is from VerticalGroup
+      const widths: number[] = this.sizes.map(v => v.width)
       const widthMax = Math.max(0, ...widths)
       return widths.map(width => (widthMax - width) / 2)
+    }
+  },
+  methods: {
+    onDelete(index: number) {
+      // @ts-ignore this.sizes is from VerticalGroup
+      this.sizes.splice(index, 1)
+      const elementIndex = this.reverseOrder ? (this.group.components.length - 1 - index): index;
+      this.group.components.splice(elementIndex, 1);
+      // @ts-ignore this.emitSize is from VerticalGroup
+      this.emitSize()
     }
   }
 })

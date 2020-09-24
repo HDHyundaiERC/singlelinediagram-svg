@@ -21,10 +21,7 @@ Using mixin VerticalGroup
       <template v-slot:component="slotProp">
         <slot
             name="component"
-            :x="slotProp.x"
-            :y="slotProp.y"
-            :component="slotProp.component"
-            :updatesize="slotProp.updatesize"
+            :data="slotProp.data"
         ></slot>
       </template>
     </svg-horizontal-group>
@@ -44,10 +41,7 @@ Using mixin VerticalGroup
       <template v-slot:component="slotProp">
         <slot
             name="component"
-            :x="slotProp.x"
-            :y="slotProp.y"
-            :component="slotProp.component"
-            :updatesize="slotProp.updatesize"
+            :data="slotProp.data"
         ></slot>
       </template>
     </svg-horizontal-group>

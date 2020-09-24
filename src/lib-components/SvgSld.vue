@@ -19,7 +19,6 @@ Uses HorizontalGroup-mixins, which defines:
     <g v-for="(group, index) of system.switchboards"
        :key="index">
       <svg-switchboard
-
           :x="xComponents[index*2]"
           :y="yPosition[index*2]"
           :switchboard="group"
@@ -30,10 +29,14 @@ Uses HorizontalGroup-mixins, which defines:
         <template v-slot:component="slotProp">
           <slot
               name="component"
-              :x="slotProp.x"
-              :y="slotProp.y"
-              :component="slotProp.component"
-              :updatesize="slotProp.updatesize"
+              :x="slotProp.data.x"
+              :y="slotProp.data.y"
+              :component="slotProp.data.component"
+              :updatesize="slotProp.data.updatesize"
+              :above-switchboard="slotProp.data.aboveSwitchboard"
+              :group="slotProp.data.group"
+              :index="slotProp.data.index"
+              :delete="slotProp.data.delete"
           ></slot>
         </template>
       </svg-switchboard>

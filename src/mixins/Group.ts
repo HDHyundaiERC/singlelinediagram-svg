@@ -16,7 +16,7 @@ import { ComponentSize } from '@/models';
 export const VerticalGroup = Vue.extend({
   data: function() {
     return {
-      sizes: {} as { [index: string]: ComponentSize }
+      sizes: [] as ComponentSize[]
     };
   },
   mounted() {
@@ -30,24 +30,22 @@ export const VerticalGroup = Vue.extend({
       return `0 0 ${this.width} ${this.height}`;
     },
     yComponents: function(): number[] {
-      const componentsIds = Object.keys(this.sizes);
-      if (componentsIds.length !== this.nSubElements) {
+      if (this.sizes.length !== this.nSubElements) {
         return new Array(this.nSubElements).fill(0);
       }
       let y = 0;
       const yComp = [];
-      for (const component of componentsIds) {
-        const size = this.sizes[component];
+      for (const size of this.sizes) {
         yComp.push(y);
         y += size.height;
       }
       return yComp;
     },
     width: function(): number {
-      return Math.max(0,...Object.values(this.sizes).map(size => size.width));
+      return Math.max(0,...this.sizes.map(size => size.width));
     },
     height: function(): number {
-      return Object.values(this.sizes).reduce(
+      return this.sizes.reduce(
         (sumHeight, size) => sumHeight + size.height,
         0
       );

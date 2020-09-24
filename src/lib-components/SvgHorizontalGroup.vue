@@ -16,10 +16,7 @@ For instance consumer groups, where each consumer group is a group of components
       <template v-slot:component="slotProp">
         <slot
             name="component"
-            :x="slotProp.x"
-            :y="slotProp.y"
-            :component="slotProp.component"
-            :updatesize="slotProp.updatesize"
+            :data="slotProp"
         ></slot>
       </template>
     </svg-group>
