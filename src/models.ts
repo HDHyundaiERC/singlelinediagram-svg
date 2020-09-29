@@ -17,5 +17,6 @@ export interface SldComponentGroup<T> {
 }
 
 export interface SldConfiguration {
-  switchboardThickness: number
+  switchboardThickness: number,
+  showAddButtons: boolean
 }

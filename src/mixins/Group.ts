@@ -13,7 +13,8 @@
 import Vue from "vue";
 import { ComponentSize } from '@/models';
 
-export const VerticalGroup = Vue.extend({
+export function VerticalGroup( option: {minHeight?: number, minWidth?: number}) {
+  return Vue.extend({
   data: function() {
     return {
       sizes: [] as ComponentSize[]
@@ -42,13 +43,14 @@ export const VerticalGroup = Vue.extend({
       return yComp;
     },
     width: function(): number {
-      return Math.max(0,...this.sizes.map(size => size.width));
+      return Math.max(option.minWidth || 0,...this.sizes.map(size => size.width));
     },
     height: function(): number {
-      return this.sizes.reduce(
+      const height = this.sizes.reduce(
         (sumHeight, size) => sumHeight + size.height,
         0
       );
+      return Math.max(height, option.minHeight || 0)
     }
   },
   methods: {
@@ -63,12 +65,12 @@ export const VerticalGroup = Vue.extend({
       this.$emit("update-size", { width: this.width, height: this.height });
     }
   }
-});
+});}
 
 export const HorizontalGroup = Vue.extend({
   data: function() {
     return {
-      sizes: {} as { [index: string]: ComponentSize }
+      sizes: [] as ComponentSize[]
     };
   },
   mounted() {
@@ -82,24 +84,22 @@ export const HorizontalGroup = Vue.extend({
       return `0 0 ${this.width} ${this.height}`;
     },
     xComponents: function(): number[] {
-      const componentsIds = Object.keys(this.sizes);
-      if (componentsIds.length !== this.nSubElements) {
+      if (this.sizes.length !== this.nSubElements) {
         return new Array(this.nSubElements).fill(0);
       }
       let x = 0;
       const xComp = [];
-      for (const component of componentsIds) {
-        const size = this.sizes[component];
+      for (const size of this.sizes) {
         xComp.push(x);
         x += size.width;
       }
       return xComp;
     },
     height: function(): number {
-      return Math.max(0,...Object.values(this.sizes).map(size => size.height));
+      return Math.max(0,...this.sizes.map(size => size.height));
     },
     width: function(): number {
-      return Object.values(this.sizes).reduce(
+      return this.sizes.reduce(
         (sumWidth, size) => sumWidth + size.width,
         0
       );

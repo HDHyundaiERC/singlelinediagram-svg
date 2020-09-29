@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <svg-sld :system="system" :sld-configuration="sldCfg">
+    <svg-sld :system="system" :sld-configuration="sldCfg"
+             @add-producer="onEvent('add-producer', $event)"
+             @add-consumer="onEvent('add-consumer', $event)">
       <template v-slot:component="slotProps">
         <sld-component
             :x="slotProps.x"
@@ -18,7 +20,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { SvgSld } from '@/entry';
-import { SldSystem } from '@/models';
+import { SldConfiguration, SldSystem } from '@/models';
 import SldComponent from './SldComponent.vue';
 
 interface TestComponent {
@@ -31,11 +33,20 @@ export default Vue.extend({
     SvgSld,
     SldComponent
   },
+  methods: {
+    onLeftClick: function (e: TestComponent) {
+      console.log('Left click', e.type);
+    },
+    onEvent: function (tag: string, e: any) {
+      console.log(tag, e);
+    }
+  },
   data() {
     return {
       sldCfg: {
-        switchboardThickness: 5
-      },
+        switchboardThickness: 5,
+        showAddButtons: false
+      } as SldConfiguration,
       system: {
         switchboards: [
           {
@@ -163,11 +174,7 @@ export default Vue.extend({
       } as SldSystem<TestComponent>
     };
   },
-  methods: {
-    onLeftClick: function (e: TestComponent) {
-      console.log('Left click', e.type);
-    }
-  }
+
 });
 </script>
 

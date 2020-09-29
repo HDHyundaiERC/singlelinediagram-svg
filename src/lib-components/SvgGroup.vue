@@ -26,7 +26,7 @@ import { VerticalGroup } from '@/mixins/Group';
 
 export default Vue.extend({
   name: 'SvgGroup',
-  mixins: [VerticalGroup],
+  mixins: [VerticalGroup({})],
   props: {
     x: Number,
     y: Number,

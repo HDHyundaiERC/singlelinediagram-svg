@@ -10,7 +10,12 @@ Using mixin VerticalGroup
       :width="width"
       :height="height"
       ref="root"
+      style="overflow: visible"
+      @mouseover="hover = true"
+      @mouseout="hover = false"
   >
+    <!-- add rect below for hover parameter to work -->
+    <rect fill="#eee" opacity="0" y="0" x="0" rx="10" ry="10" :width="width" :height="height"/>
     <svg-horizontal-group
         :x="0"
         :y="yComponents[0]"
@@ -45,6 +50,13 @@ Using mixin VerticalGroup
         ></slot>
       </template>
     </svg-horizontal-group>
+    <SvgButton :xRight="width" :yBottom="yComponents[1]" icon="plus" :show="hover"
+               v-if="sldConfiguration.showAddButtons"
+               @click="onAddProducer"/>
+    <SvgButton :xRight="width" :yTop="yComponents[1] + sldConfiguration.switchboardThickness"
+               icon="plus" :show="hover"
+               v-if="sldConfiguration.showAddButtons"
+               @click="onAddConsumer"/>
   </svg>
 </template>
 
@@ -53,16 +65,20 @@ import Vue from 'vue';
 import { VerticalGroup } from '@/mixins/Group';
 import SvgHorizontalGroup from './SvgHorizontalGroup.vue';
 import SvgSwitchboardLine from './SvgSwitchboardLine.vue';
+import SvgButton from './SvgButton.vue';
 
 export default Vue.extend({
   name: 'SvgSwitchboard',
-  mixins: [VerticalGroup],
-  components: { SvgSwitchboardLine, SvgHorizontalGroup },
+  mixins: [VerticalGroup({minHeight: 24*2+10})],
+  components: { SvgSwitchboardLine, SvgHorizontalGroup, SvgButton},
   props: {
     x: Number,
     y: Number,
     switchboard: { type: Object },
     sldConfiguration: { type: Object, required: true }
+  },
+  data: function() {
+    return {hover: false};
   },
   computed: {
     nSubElements() {
@@ -75,6 +91,12 @@ export default Vue.extend({
       this.$emit('update-size', { width: this.width, height: this.height });
       // @ts-ignore
       this.$emit('update-switchboard-y', this.yComponents[1])
+    },
+    onAddProducer() {
+      this.$emit('add-producer', {switchboard: this.switchboard})
+    },
+    onAddConsumer() {
+      this.$emit('add-consumer', {switchboard: this.switchboard})
     }
   }
 })

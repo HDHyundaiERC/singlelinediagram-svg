@@ -25,6 +25,8 @@ Uses HorizontalGroup-mixins, which defines:
           :sld-configuration="sldConfiguration"
           @update-size="updateSize(index*2, $event)"
           @update-switchboard-y="updateVAlignment(index*2, $event)"
+          @add-producer="addProducer"
+          @add-consumer="addConsumer"
       >
         <template v-slot:component="slotProp">
           <slot
@@ -65,7 +67,7 @@ export default Vue.extend({
   props: {
     x: Number,
     y: Number,
-    scale: {type: Number, default: .3},
+    scale: { type: Number, default: .3 },
     system: { type: Object },
     sldConfiguration: { type: Object, required: true }
   },
@@ -97,6 +99,12 @@ export default Vue.extend({
       const yMax = Math.max(...this.ySwitchboardPosition)
       // @ts-ignore
       this.yPosition = this.ySwitchboardPosition.map(v => (yMax - v));
+    },
+    addProducer(event: any) {
+      this.$emit('add-producer', event)
+    },
+    addConsumer(event: any) {
+      this.$emit('add-consumer', event)
     }
   }
 })
