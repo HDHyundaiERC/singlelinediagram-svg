@@ -10,7 +10,7 @@
   "files": [
     "dist/*",
     "singlelinediagram-svg.d.ts",
-    "src/**/*.vue"
+    "src/**/*"
   ],
   "scripts": {
     "prepare": "npm run build",
