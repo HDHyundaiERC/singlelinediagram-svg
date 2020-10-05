@@ -93,7 +93,6 @@ export default mixins(HorizontalGroup).extend({
     height() {
       let maxHeight = 0;
       for (const i of Object.keys(this.sizes)) {
-        console.log(this.yPosition[i])
         maxHeight = Math.max(maxHeight, this.sizes[i].height + this.yPosition[i])
       }
       return maxHeight;

@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "singlelinediagram-svg": "git+ssh://git@git.code.sintef.no/mes/singlelinediagram-svg.git#4d9ae16e27ca70e88e7e407384c9f5c7aadcaff4",
+    "singlelinediagram-svg": "git+ssh://git@git.code.sintef.no/mes/singlelinediagram-svg.git#95ebd22",
     "vue": "^2.6.11"
   },
   "devDependencies": {

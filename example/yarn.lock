@@ -7177,9 +7177,9 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
-"singlelinediagram-svg@git+ssh://git@git.code.sintef.no/mes/singlelinediagram-svg.git#4d9ae16e27ca70e88e7e407384c9f5c7aadcaff4":
-  version "1.1.0"
-  resolved "git+ssh://git@git.code.sintef.no/mes/singlelinediagram-svg.git#4d9ae16e27ca70e88e7e407384c9f5c7aadcaff4"
+"singlelinediagram-svg@git+ssh://git@git.code.sintef.no/mes/singlelinediagram-svg.git#95ebd22":
+  version "1.2.1"
+  resolved "git+ssh://git@git.code.sintef.no/mes/singlelinediagram-svg.git#95ebd222f3565b95c0d3e3de12ddc1bd0687b581"
 
 slash@^1.0.0:
   version "1.0.0"
