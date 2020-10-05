@@ -50,26 +50,35 @@ Uses HorizontalGroup-mixins, which defines:
           @update-switchboard-y="updateVAlignment(index*2 + 1, $event)"
       />
     </g>
+    <SvgButton :x-right="width" :yTop="yPosition[nSubElements -1 ]-12"
+               icon="plus" :show="true"
+               v-if="sldConfiguration.showAddButtons"
+               @click="addSwitchboard"/>
   </svg>
 </template>
 
 <script lang="ts">
 import { HorizontalGroup } from '@/mixins/Group';
 import SvgSwitchboard from '@/lib-components/SvgSwitchboard.vue';
+import mixins from "vue-typed-mixins";
 
-import Vue from 'vue';
 import Breaker from '@/lib-components/breaker.vue';
+import SvgButton from '@/lib-components/SvgButton.vue';
 
-export default Vue.extend({
+export default mixins(HorizontalGroup).extend({
   name: 'SvgSld',
-  mixins: [HorizontalGroup],
-  components: { Breaker, SvgSwitchboard },
+  components: { Breaker, SvgSwitchboard, SvgButton},
   props: {
     x: Number,
     y: Number,
     scale: { type: Number, default: .3 },
     system: { type: Object },
     sldConfiguration: { type: Object, required: true }
+  },
+  mounted() {
+    // Handle button size
+    this.updateSize(this.nSubElements - 1, { width: 34, height: 24 })
+    this.updateVAlignment(this.nSubElements - 1, 0)
   },
   data: function () {
     return {
@@ -79,13 +88,12 @@ export default Vue.extend({
   },
   computed: {
     nSubElements() {
-      return this.system.switchboards.length * 2 - 1;
+      return this.system.switchboards.length * 2;
     },
     height() {
       let maxHeight = 0;
-      // @ts-ignore
       for (const i of Object.keys(this.sizes)) {
-        // @ts-ignore
+        console.log(this.yPosition[i])
         maxHeight = Math.max(maxHeight, this.sizes[i].height + this.yPosition[i])
       }
       return maxHeight;
@@ -105,6 +113,9 @@ export default Vue.extend({
     },
     addConsumer(event: any) {
       this.$emit('add-consumer', event)
+    },
+    addSwitchboard() {
+      this.$emit('add-switchboard')
     }
   }
 })

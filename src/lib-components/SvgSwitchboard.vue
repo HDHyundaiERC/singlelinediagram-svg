@@ -61,13 +61,13 @@ Using mixin VerticalGroup
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import { VerticalGroup } from '@/mixins/Group';
 import SvgHorizontalGroup from './SvgHorizontalGroup.vue';
 import SvgSwitchboardLine from './SvgSwitchboardLine.vue';
 import SvgButton from './SvgButton.vue';
+import mixins from 'vue-typed-mixins';
 
-export default Vue.extend({
+export default mixins(VerticalGroup({minHeight: 24*2+10})).extend({
   name: 'SvgSwitchboard',
   mixins: [VerticalGroup({minHeight: 24*2+10})],
   components: { SvgSwitchboardLine, SvgHorizontalGroup, SvgButton},
@@ -87,9 +87,7 @@ export default Vue.extend({
   },
   methods: {
     emitSize: function () {
-      // @ts-ignore
       this.$emit('update-size', { width: this.width, height: this.height });
-      // @ts-ignore
       this.$emit('update-switchboard-y', this.yComponents[1])
     },
     onAddProducer() {

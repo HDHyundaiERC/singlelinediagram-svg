@@ -52,7 +52,8 @@ const baseConfig = {
 const external = [
   // list external dependencies, exactly the way it is written in the import statement.
   // eg. 'jquery'
-  'vue'
+  'vue',
+  'vue-typed-mixins'
 ];
 
 // UMD/IIFE shared settings: output.globals
