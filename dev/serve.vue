@@ -3,7 +3,7 @@
     <svg-sld :system="system" :sld-configuration="sldCfg"
              @add-producer="onEvent('add-producer', $event)"
              @add-consumer="onEvent('add-consumer', $event)"
-            @add-switchboard="addSwitchboard">
+             @add-switchboard="addSwitchboard">
       <template v-slot:component="slotProps">
         <sld-component
             :x="slotProps.x"
@@ -55,7 +55,22 @@ export default Vue.extend({
         showAddButtons: true
       } as SldConfiguration,
       system: {
-        switchboards:[]
+        switchboards: [{
+          consumers: [],
+          producers: [{
+            components: [
+              {
+                type: 'ACDC'
+              },
+              {
+                type: 'Generator'
+              },
+              {
+                type: 'Engine'
+              }
+            ]
+          }]
+        }]
       },
       system2: {
         switchboards: [
@@ -74,7 +89,7 @@ export default Vue.extend({
                     text: 'Propeller'
                   }
                 ]
-              },{
+              }, {
                 components: [
                   {
                     type: 'DCAC'
@@ -163,7 +178,7 @@ export default Vue.extend({
             producers: [
               {
                 components: [
-{
+                  {
                     type: 'ACDC'
                   },
                   {
@@ -183,7 +198,7 @@ export default Vue.extend({
         ]
       } as SldSystem<TestComponent>
     };
-  },
+  }
 
 });
 </script>

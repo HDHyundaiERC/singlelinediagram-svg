@@ -31,7 +31,7 @@ import SvgGroup from './SvgGroup.vue';
 
 export default Vue.extend({
   name: 'SvgHorizontalGroup',
-  mixins: [HorizontalGroup],
+  mixins: [HorizontalGroup({minHeight: 24, minWidth: 24})],
   components: { SvgGroup },
   props: {
     x: Number,

@@ -66,7 +66,7 @@ import mixins from 'vue-typed-mixins';
 import Breaker from '@/lib-components/breaker.vue';
 import SvgButton from '@/lib-components/SvgButton.vue';
 
-export default mixins(HorizontalGroup).extend({
+export default mixins(HorizontalGroup({})).extend({
   name: 'SvgSld',
   components: { Breaker, SvgSwitchboard, SvgButton },
   props: {
