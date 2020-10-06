@@ -50,7 +50,8 @@ Uses HorizontalGroup-mixins, which defines:
           @update-switchboard-y="updateVAlignment(index*2 + 1, $event)"
       />
     </g>
-    <SvgButton :x-right="width" :yTop="yPosition[nSubElements -1 ]-12"
+    <SvgButton :x-right="width"
+               :yTop="yPosition[nSubElements] ? yPosition[nSubElements] - buttonSize.height/2 : 0"
                icon="plus" :show="true"
                v-if="sldConfiguration.showAddButtons"
                @click="addSwitchboard"/>
@@ -60,14 +61,14 @@ Uses HorizontalGroup-mixins, which defines:
 <script lang="ts">
 import { HorizontalGroup } from '@/mixins/Group';
 import SvgSwitchboard from '@/lib-components/SvgSwitchboard.vue';
-import mixins from "vue-typed-mixins";
+import mixins from 'vue-typed-mixins';
 
 import Breaker from '@/lib-components/breaker.vue';
 import SvgButton from '@/lib-components/SvgButton.vue';
 
 export default mixins(HorizontalGroup).extend({
   name: 'SvgSld',
-  components: { Breaker, SvgSwitchboard, SvgButton},
+  components: { Breaker, SvgSwitchboard, SvgButton },
   props: {
     x: Number,
     y: Number,
@@ -75,20 +76,16 @@ export default mixins(HorizontalGroup).extend({
     system: { type: Object },
     sldConfiguration: { type: Object, required: true }
   },
-  mounted() {
-    // Handle button size
-    this.updateSize(this.nSubElements - 1, { width: 34, height: 24 })
-    this.updateVAlignment(this.nSubElements - 1, 0)
-  },
   data: function () {
     return {
       ySwitchboardPosition: [] as number[],
-      yPosition: [] as number[]
+      yPosition: [] as number[],
+      buttonSize: { width: 34, height: 24 }
     }
   },
   computed: {
     nSubElements() {
-      return this.system.switchboards.length * 2;
+      return this.system.switchboards.length * 2 - 1;
     },
     height() {
       let maxHeight = 0;
@@ -96,6 +93,12 @@ export default mixins(HorizontalGroup).extend({
         maxHeight = Math.max(maxHeight, this.sizes[i].height + this.yPosition[i])
       }
       return maxHeight;
+    },
+    width: function (): number {
+      return this.sizes.reduce(
+          (sumWidth, size) => sumWidth + size.width,
+          0
+      ) + this.buttonSize.width;
     }
   },
   methods: {
@@ -106,6 +109,7 @@ export default mixins(HorizontalGroup).extend({
       const yMax = Math.max(...this.ySwitchboardPosition)
       // @ts-ignore
       this.yPosition = this.ySwitchboardPosition.map(v => (yMax - v));
+      this.yPosition.push(yMax)
     },
     addProducer(event: any) {
       this.$emit('add-producer', event)
@@ -114,7 +118,7 @@ export default mixins(HorizontalGroup).extend({
       this.$emit('add-consumer', event)
     },
     addSwitchboard() {
-      this.$emit('add-switchboard')
+      this.$emit('add-switchboard');
     }
   }
 })

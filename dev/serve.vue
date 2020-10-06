@@ -2,7 +2,8 @@
   <div id="app">
     <svg-sld :system="system" :sld-configuration="sldCfg"
              @add-producer="onEvent('add-producer', $event)"
-             @add-consumer="onEvent('add-consumer', $event)">
+             @add-consumer="onEvent('add-consumer', $event)"
+            @add-switchboard="addSwitchboard">
       <template v-slot:component="slotProps">
         <sld-component
             :x="slotProps.x"
@@ -39,6 +40,12 @@ export default Vue.extend({
     },
     onEvent: function (tag: string, e: any) {
       console.log(tag, e);
+    },
+    addSwitchboard: function () {
+      this.system.switchboards.push({
+        consumers: [],
+        producers: []
+      })
     }
   },
   data() {
