@@ -92,7 +92,7 @@ export default mixins(HorizontalGroup).extend({
       for (const i of Object.keys(this.sizes)) {
         maxHeight = Math.max(maxHeight, this.sizes[i].height + this.yPosition[i])
       }
-      return maxHeight;
+      return Math.max(maxHeight, this.buttonSize.height);
     },
     width: function (): number {
       return this.sizes.reduce(
@@ -106,7 +106,7 @@ export default mixins(HorizontalGroup).extend({
       // @ts-ignore
       this.ySwitchboardPosition[index] = event;
       // @ts-ignore
-      const yMax = Math.max(...this.ySwitchboardPosition)
+      const yMax = Math.max(...this.ySwitchboardPosition, 2*this.buttonSize.height)
       // @ts-ignore
       this.yPosition = this.ySwitchboardPosition.map(v => (yMax - v));
       this.yPosition.push(yMax)

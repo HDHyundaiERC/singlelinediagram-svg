@@ -55,6 +55,9 @@ export default Vue.extend({
         showAddButtons: true
       } as SldConfiguration,
       system: {
+        switchboards:[]
+      },
+      system2: {
         switchboards: [
           {
             consumers: [
