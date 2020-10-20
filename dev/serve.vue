@@ -55,31 +55,13 @@ export default Vue.extend({
         showAddButtons: true
       } as SldConfiguration,
       system: {
-        switchboards: [{
-          consumers: [],
-          producers: [{
-            components: [
-              {
-                type: 'ACDC'
-              },
-              {
-                type: 'Generator'
-              },
-              {
-                type: 'Engine'
-              }
-            ]
-          }]
-        }]
-      },
-      system2: {
         switchboards: [
           {
             consumers: [
               {
                 components: [
                   {
-                    type: 'DCAC'
+                    type: 'DCAC',
                   },
                   {
                     type: 'Motor'
@@ -88,7 +70,7 @@ export default Vue.extend({
                     type: 'ConsumerText',
                     text: 'Propeller'
                   }
-                ]
+                ],
               }, {
                 components: [
                   {
@@ -114,6 +96,22 @@ export default Vue.extend({
                     type: 'Engine'
                   }
                 ]
+              },
+              {
+                components: [
+                  {
+                    type: 'Generator'
+                  }
+                ],
+                backgroundColor: '#fb8c00'
+              },
+              {
+                components: [
+                  {
+                    type: 'Generator'
+                  }
+                ],
+                backgroundColor: '#fac27d'
               }
             ]
           },

@@ -4,6 +4,8 @@ Using mixin VerticalGroup
 
 <template>
   <svg :viewBox="viewBox" :x="x" :y="y" :height="height" :width="width">
+    <rect :opacity="group.backgroundColor ? 1 : 0" :fill="group.backgroundColor" y="0"
+          x="0" rx="10" ry="10" :width="width" :height="height"/>
     <g v-for="(component, index) of subElements" v-bind:key="index">
       <slot
           name="component"

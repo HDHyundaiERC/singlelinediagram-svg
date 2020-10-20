@@ -10,10 +10,12 @@ export interface SldSystem<T> {
 export interface SldSwitchboard<T> {
   producers: SldComponentGroup<T>[];
   consumers: SldComponentGroup<T>[];
+  backgroundColor?: string;
 }
 
 export interface SldComponentGroup<T> {
   components: T[];
+  backgroundColor?: string;
 }
 
 export interface SldConfiguration {

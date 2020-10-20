@@ -15,7 +15,8 @@ Using mixin VerticalGroup
       @mouseout="hover = false"
   >
     <!-- add rect below for hover parameter to work -->
-    <rect fill="#eee" opacity="0" y="0" x="0" rx="10" ry="10" :width="width" :height="height"/>
+    <rect :opacity="switchboard.backgroundColor ? 1 : 0" :fill="switchboard.backgroundColor" y="0"
+          x="0" rx="10" ry="10" :width="width" :height="height"/>
     <svg-horizontal-group
         :x="0"
         :y="yComponents[0]"
@@ -67,18 +68,18 @@ import SvgSwitchboardLine from './SvgSwitchboardLine.vue';
 import SvgButton from './SvgButton.vue';
 import mixins from 'vue-typed-mixins';
 
-export default mixins(VerticalGroup({minHeight: 24*2+10})).extend({
+export default mixins(VerticalGroup({ minHeight: 24 * 2 + 10 })).extend({
   name: 'SvgSwitchboard',
-  mixins: [VerticalGroup({minHeight: 24*2+10})],
-  components: { SvgSwitchboardLine, SvgHorizontalGroup, SvgButton},
+  mixins: [VerticalGroup({ minHeight: 24 * 2 + 10 })],
+  components: { SvgSwitchboardLine, SvgHorizontalGroup, SvgButton },
   props: {
     x: Number,
     y: Number,
     switchboard: { type: Object },
     sldConfiguration: { type: Object, required: true }
   },
-  data: function() {
-    return {hover: false};
+  data: function () {
+    return { hover: false };
   },
   computed: {
     nSubElements() {
@@ -91,10 +92,10 @@ export default mixins(VerticalGroup({minHeight: 24*2+10})).extend({
       this.$emit('update-switchboard-y', this.yComponents[1])
     },
     onAddProducer() {
-      this.$emit('add-producer', {switchboard: this.switchboard})
+      this.$emit('add-producer', { switchboard: this.switchboard })
     },
     onAddConsumer() {
-      this.$emit('add-consumer', {switchboard: this.switchboard})
+      this.$emit('add-consumer', { switchboard: this.switchboard })
     }
   }
 })
