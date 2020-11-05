@@ -14,6 +14,8 @@ Using mixin VerticalGroup
           :component="component"
           :group="group.components"
           :index="reverseOrder ? (group.components.length - 1 - index): index"
+          :group-index="groupIndex"
+          :switchboard-index="switchboardIndex"
           :above-switchboard="reverseOrder"
           :updatesize="e => updateSize(index, e)"
           :delete="() => onDelete(index)"
@@ -32,8 +34,10 @@ export default Vue.extend({
   props: {
     x: Number,
     y: Number,
-    group: { type: Object },
-    reverseOrder: { type: Boolean, default: false }
+    group: { type: Object, required: true },
+    reverseOrder: { type: Boolean, default: false },
+    switchboardIndex: {type: Number, required: true},
+    groupIndex: {type: Number, required: true}
   },
   computed: {
     nSubElements() {

@@ -22,6 +22,7 @@ Using mixin VerticalGroup
         :y="yComponents[0]"
         :alignBottom="true"
         :group="switchboard.producers"
+        :switchboard-index="switchboardIndex"
         @update-size="updateSize(0, $event)"
     >
       <template v-slot:component="slotProp">
@@ -42,6 +43,7 @@ Using mixin VerticalGroup
         :x="0"
         :y="yComponents[2]"
         :group="switchboard.consumers"
+        :switchboard-index="switchboardIndex"
         @update-size="updateSize(2, $event)"
     >
       <template v-slot:component="slotProp">
@@ -75,8 +77,9 @@ export default mixins(VerticalGroup({ minHeight: 24 * 2 + 10 })).extend({
   props: {
     x: Number,
     y: Number,
-    switchboard: { type: Object },
-    sldConfiguration: { type: Object, required: true }
+    switchboard: { type: Object, required: true },
+    sldConfiguration: { type: Object, required: true },
+    switchboardIndex: { type: Number, required: true }
   },
   data: function () {
     return { hover: false };
@@ -92,10 +95,16 @@ export default mixins(VerticalGroup({ minHeight: 24 * 2 + 10 })).extend({
       this.$emit('update-switchboard-y', this.yComponents[1])
     },
     onAddProducer() {
-      this.$emit('add-producer', { switchboard: this.switchboard })
+      this.$emit('add-producer', {
+        switchboard: this.switchboard,
+        switchboardIndex: this.switchboardIndex
+      })
     },
     onAddConsumer() {
-      this.$emit('add-consumer', { switchboard: this.switchboard })
+      this.$emit('add-consumer', {
+        switchboard: this.switchboard,
+        switchboardIndex: this.switchboardIndex
+      })
     }
   }
 })

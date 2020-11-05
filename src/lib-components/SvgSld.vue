@@ -22,6 +22,7 @@ Uses HorizontalGroup-mixins, which defines:
           :x="xComponents[index*2]"
           :y="yPosition[index*2]"
           :switchboard="group"
+          :switchboard-index="index"
           :sld-configuration="sldConfiguration"
           @update-size="updateSize(index*2, $event)"
           @update-switchboard-y="updateVAlignment(index*2, $event)"
@@ -39,6 +40,8 @@ Uses HorizontalGroup-mixins, which defines:
               :group="slotProp.data.group"
               :index="slotProp.data.index"
               :delete="slotProp.data.delete"
+              :group-index="slotProp.data.groupIndex"
+              :switchboard-index="slotProp.data.switchboardIndex"
           ></slot>
         </template>
       </svg-switchboard>

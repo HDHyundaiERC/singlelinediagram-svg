@@ -11,6 +11,8 @@ For instance consumer groups, where each consumer group is a group of components
         :y="yPosition[index]"
         :group="g"
         :reverse-order="alignBottom"
+        :switchboard-index="switchboardIndex"
+        :group-index="index"
         @update-size="updateSize(index, $event)"
     >
       <template v-slot:component="slotProp">
@@ -36,7 +38,8 @@ export default Vue.extend({
   props: {
     x: Number,
     y: Number,
-    group: { type: Array },
+    group: { type: Array, required: true},
+    switchboardIndex: { type: Number, required: true },
     alignBottom: { type: Boolean, default: false }
   },
   computed: {
