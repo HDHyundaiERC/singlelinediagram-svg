@@ -1,6 +1,6 @@
 {
   "name": "singlelinediagram-svg",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "",
   "main": "dist/singlelinediagram-svg.ssr.js",
   "browser": "dist/singlelinediagram-svg.esm.js",
