@@ -8,11 +8,14 @@
       @contextmenu.prevent="makeSmaller"
       @click="resize"
   >
+
     <ConsumerTextComponent :x="0" :y="0" v-if="componentData.type==='ConsumerText'"
                            @update-size="updateSize" :text="componentData.text"
     />
     <SvgComponent v-else :x="0" :y="0" :component-data="componentData"
                   @update-size="updateSize"/>
+        <rect :opacity="componentData.backgroundColor ? .5 : 0" :fill="componentData.backgroundColor"
+          y="0" x="0" rx="10" ry="10" :width="width" :height="height"/>
   </svg>
 </template>
 <script lang="ts">

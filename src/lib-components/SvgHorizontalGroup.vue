@@ -11,6 +11,8 @@ For instance consumer groups, where each consumer group is a group of components
         :y="yPosition[index]"
         :group="g"
         :reverse-order="alignBottom"
+        :switchboard-index="switchboardIndex"
+        :group-index="index"
         @update-size="updateSize(index, $event)"
     >
       <template v-slot:component="slotProp">
@@ -31,12 +33,13 @@ import SvgGroup from './SvgGroup.vue';
 
 export default Vue.extend({
   name: 'SvgHorizontalGroup',
-  mixins: [HorizontalGroup],
+  mixins: [HorizontalGroup({minHeight: 24, minWidth: 24})],
   components: { SvgGroup },
   props: {
     x: Number,
     y: Number,
-    group: { type: Array },
+    group: { type: Array, required: true},
+    switchboardIndex: { type: Number, required: true },
     alignBottom: { type: Boolean, default: false }
   },
   computed: {

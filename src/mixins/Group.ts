@@ -67,54 +67,56 @@ export function VerticalGroup( option: {minHeight?: number, minWidth?: number}) 
   }
 });}
 
-export const HorizontalGroup = Vue.extend({
-  data: function() {
-    return {
-      sizes: [] as ComponentSize[]
-    };
-  },
-  mounted() {
-    this.emitSize();
-  },
-  computed: {
-    nSubElements: function() {
-      return 0;
+export function HorizontalGroup( option: {minHeight?: number, minWidth?: number}) {
+  return Vue.extend({
+    data: function () {
+      return {
+        sizes: [] as ComponentSize[]
+      };
     },
-    viewBox: function(): string {
-      return `0 0 ${this.width} ${this.height}`;
-    },
-    xComponents: function(): number[] {
-      if (this.sizes.length !== this.nSubElements) {
-        return new Array(this.nSubElements).fill(0);
-      }
-      let x = 0;
-      const xComp = [];
-      for (const size of this.sizes) {
-        xComp.push(x);
-        x += size.width;
-      }
-      return xComp;
-    },
-    height: function(): number {
-      return Math.max(0,...this.sizes.map(size => size.height));
-    },
-    width: function(): number {
-      return this.sizes.reduce(
-        (sumWidth, size) => sumWidth + size.width,
-        0
-      );
-    }
-  },
-  methods: {
-    updateSize: function(
-      index: number,
-      size: { width: number; height: number }
-    ) {
-      Vue.set(this.sizes, index, size);
+    mounted() {
       this.emitSize();
     },
-    emitSize: function() {
-      this.$emit("update-size", { width: this.width, height: this.height });
+    computed: {
+      nSubElements: function () {
+        return 0;
+      },
+      viewBox: function (): string {
+        return `0 0 ${ this.width } ${ this.height }`;
+      },
+      xComponents: function (): number[] {
+        if (this.sizes.length !== this.nSubElements) {
+          return new Array(this.nSubElements).fill(0);
+        }
+        let x = 0;
+        const xComp = [];
+        for (const size of this.sizes) {
+          xComp.push(x);
+          x += size.width;
+        }
+        return xComp;
+      },
+      height: function (): number {
+        return Math.max(option.minWidth || 0, ...this.sizes.map(size => size.height));
+      },
+      width: function (): number {
+        return this.sizes.reduce(
+          (sumWidth, size) => sumWidth + size.width,
+          option.minHeight || 0
+        );
+      }
+    },
+    methods: {
+      updateSize: function (
+        index: number,
+        size: { width: number; height: number }
+      ) {
+        Vue.set(this.sizes, index, size);
+        this.emitSize();
+      },
+      emitSize: function () {
+        this.$emit("update-size", { width: this.width, height: this.height });
+      }
     }
-  }
-});
+  });
+}

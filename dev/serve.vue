@@ -2,7 +2,8 @@
   <div id="app">
     <svg-sld :system="system" :sld-configuration="sldCfg"
              @add-producer="onEvent('add-producer', $event)"
-             @add-consumer="onEvent('add-consumer', $event)">
+             @add-consumer="onEvent('add-consumer', $event)"
+             @add-switchboard="addSwitchboard">
       <template v-slot:component="slotProps">
         <sld-component
             :x="slotProps.x"
@@ -39,13 +40,19 @@ export default Vue.extend({
     },
     onEvent: function (tag: string, e: any) {
       console.log(tag, e);
+    },
+    addSwitchboard: function () {
+      this.system.switchboards.push({
+        consumers: [],
+        producers: []
+      })
     }
   },
   data() {
     return {
       sldCfg: {
         switchboardThickness: 5,
-        showAddButtons: false
+        showAddButtons: true
       } as SldConfiguration,
       system: {
         switchboards: [
@@ -54,7 +61,7 @@ export default Vue.extend({
               {
                 components: [
                   {
-                    type: 'DCAC'
+                    type: 'DCAC',
                   },
                   {
                     type: 'Motor'
@@ -63,8 +70,8 @@ export default Vue.extend({
                     type: 'ConsumerText',
                     text: 'Propeller'
                   }
-                ]
-              },{
+                ],
+              }, {
                 components: [
                   {
                     type: 'DCAC'
@@ -89,6 +96,22 @@ export default Vue.extend({
                     type: 'Engine'
                   }
                 ]
+              },
+              {
+                components: [
+                  {
+                    type: 'Generator'
+                  }
+                ],
+                backgroundColor: '#fb8c00'
+              },
+              {
+                components: [
+                  {
+                    type: 'Generator'
+                  }
+                ],
+                backgroundColor: '#fac27d'
               }
             ]
           },
@@ -153,7 +176,7 @@ export default Vue.extend({
             producers: [
               {
                 components: [
-{
+                  {
                     type: 'ACDC'
                   },
                   {
@@ -173,7 +196,7 @@ export default Vue.extend({
         ]
       } as SldSystem<TestComponent>
     };
-  },
+  }
 
 });
 </script>

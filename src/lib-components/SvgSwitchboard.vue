@@ -15,12 +15,14 @@ Using mixin VerticalGroup
       @mouseout="hover = false"
   >
     <!-- add rect below for hover parameter to work -->
-    <rect fill="#eee" opacity="0" y="0" x="0" rx="10" ry="10" :width="width" :height="height"/>
+    <rect :opacity="switchboard.backgroundColor ? 1 : 0" :fill="switchboard.backgroundColor" y="0"
+          x="0" rx="10" ry="10" :width="width" :height="height"/>
     <svg-horizontal-group
         :x="0"
         :y="yComponents[0]"
         :alignBottom="true"
         :group="switchboard.producers"
+        :switchboard-index="switchboardIndex"
         @update-size="updateSize(0, $event)"
     >
       <template v-slot:component="slotProp">
@@ -41,6 +43,7 @@ Using mixin VerticalGroup
         :x="0"
         :y="yComponents[2]"
         :group="switchboard.consumers"
+        :switchboard-index="switchboardIndex"
         @update-size="updateSize(2, $event)"
     >
       <template v-slot:component="slotProp">
@@ -61,24 +64,25 @@ Using mixin VerticalGroup
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import { VerticalGroup } from '@/mixins/Group';
 import SvgHorizontalGroup from './SvgHorizontalGroup.vue';
 import SvgSwitchboardLine from './SvgSwitchboardLine.vue';
 import SvgButton from './SvgButton.vue';
+import mixins from 'vue-typed-mixins';
 
-export default Vue.extend({
+export default mixins(VerticalGroup({ minHeight: 24 * 2 + 10 })).extend({
   name: 'SvgSwitchboard',
-  mixins: [VerticalGroup({minHeight: 24*2+10})],
-  components: { SvgSwitchboardLine, SvgHorizontalGroup, SvgButton},
+  mixins: [VerticalGroup({ minHeight: 24 * 2 + 10 })],
+  components: { SvgSwitchboardLine, SvgHorizontalGroup, SvgButton },
   props: {
     x: Number,
     y: Number,
-    switchboard: { type: Object },
-    sldConfiguration: { type: Object, required: true }
+    switchboard: { type: Object, required: true },
+    sldConfiguration: { type: Object, required: true },
+    switchboardIndex: { type: Number, required: true }
   },
-  data: function() {
-    return {hover: false};
+  data: function () {
+    return { hover: false };
   },
   computed: {
     nSubElements() {
@@ -87,16 +91,20 @@ export default Vue.extend({
   },
   methods: {
     emitSize: function () {
-      // @ts-ignore
       this.$emit('update-size', { width: this.width, height: this.height });
-      // @ts-ignore
       this.$emit('update-switchboard-y', this.yComponents[1])
     },
     onAddProducer() {
-      this.$emit('add-producer', {switchboard: this.switchboard})
+      this.$emit('add-producer', {
+        switchboard: this.switchboard,
+        switchboardIndex: this.switchboardIndex
+      })
     },
     onAddConsumer() {
-      this.$emit('add-consumer', {switchboard: this.switchboard})
+      this.$emit('add-consumer', {
+        switchboard: this.switchboard,
+        switchboardIndex: this.switchboardIndex
+      })
     }
   }
 })

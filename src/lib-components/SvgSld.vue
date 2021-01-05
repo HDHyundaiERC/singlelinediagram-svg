@@ -22,6 +22,7 @@ Uses HorizontalGroup-mixins, which defines:
           :x="xComponents[index*2]"
           :y="yPosition[index*2]"
           :switchboard="group"
+          :switchboard-index="index"
           :sld-configuration="sldConfiguration"
           @update-size="updateSize(index*2, $event)"
           @update-switchboard-y="updateVAlignment(index*2, $event)"
@@ -39,6 +40,8 @@ Uses HorizontalGroup-mixins, which defines:
               :group="slotProp.data.group"
               :index="slotProp.data.index"
               :delete="slotProp.data.delete"
+              :group-index="slotProp.data.groupIndex"
+              :switchboard-index="slotProp.data.switchboardIndex"
           ></slot>
         </template>
       </svg-switchboard>
@@ -50,20 +53,25 @@ Uses HorizontalGroup-mixins, which defines:
           @update-switchboard-y="updateVAlignment(index*2 + 1, $event)"
       />
     </g>
+    <SvgButton :x-right="width"
+               :yTop="yPosition[nSubElements] ? yPosition[nSubElements] - buttonSize.height/2 : 0"
+               icon="plus" :show="true"
+               v-if="sldConfiguration.showAddButtons"
+               @click="addSwitchboard"/>
   </svg>
 </template>
 
 <script lang="ts">
 import { HorizontalGroup } from '@/mixins/Group';
 import SvgSwitchboard from '@/lib-components/SvgSwitchboard.vue';
+import mixins from 'vue-typed-mixins';
 
-import Vue from 'vue';
 import Breaker from '@/lib-components/breaker.vue';
+import SvgButton from '@/lib-components/SvgButton.vue';
 
-export default Vue.extend({
+export default mixins(HorizontalGroup({})).extend({
   name: 'SvgSld',
-  mixins: [HorizontalGroup],
-  components: { Breaker, SvgSwitchboard },
+  components: { Breaker, SvgSwitchboard, SvgButton },
   props: {
     x: Number,
     y: Number,
@@ -74,7 +82,8 @@ export default Vue.extend({
   data: function () {
     return {
       ySwitchboardPosition: [] as number[],
-      yPosition: [] as number[]
+      yPosition: [] as number[],
+      buttonSize: { width: 34, height: 24 }
     }
   },
   computed: {
@@ -83,12 +92,16 @@ export default Vue.extend({
     },
     height() {
       let maxHeight = 0;
-      // @ts-ignore
       for (const i of Object.keys(this.sizes)) {
-        // @ts-ignore
         maxHeight = Math.max(maxHeight, this.sizes[i].height + this.yPosition[i])
       }
-      return maxHeight;
+      return Math.max(maxHeight, this.buttonSize.height);
+    },
+    width: function (): number {
+      return this.sizes.reduce(
+          (sumWidth, size) => sumWidth + size.width,
+          0
+      ) + this.buttonSize.width;
     }
   },
   methods: {
@@ -96,15 +109,19 @@ export default Vue.extend({
       // @ts-ignore
       this.ySwitchboardPosition[index] = event;
       // @ts-ignore
-      const yMax = Math.max(...this.ySwitchboardPosition)
+      const yMax = Math.max(...this.ySwitchboardPosition, 2*this.buttonSize.height)
       // @ts-ignore
       this.yPosition = this.ySwitchboardPosition.map(v => (yMax - v));
+      this.yPosition.push(yMax)
     },
     addProducer(event: any) {
       this.$emit('add-producer', event)
     },
     addConsumer(event: any) {
       this.$emit('add-consumer', event)
+    },
+    addSwitchboard() {
+      this.$emit('add-switchboard');
     }
   }
 })
