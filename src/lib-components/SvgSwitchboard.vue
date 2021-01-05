@@ -53,6 +53,9 @@ Using mixin VerticalGroup
         ></slot>
       </template>
     </svg-horizontal-group>
+    <SvgButton :xRight="marginX" :yBottom="yComponents[1]" icon="delete" :show="hover"
+               v-if="sldConfiguration.showAddButtons"
+               @click="onDeleteSwitchboard"/>
     <SvgButton :xRight="width" :yBottom="yComponents[1]" icon="plus" :show="hover"
                v-if="sldConfiguration.showAddButtons"
                @click="onAddProducer"/>
@@ -105,6 +108,9 @@ export default mixins(VerticalGroup({ minHeight: 24 * 2 + 10 })).extend({
         switchboard: this.switchboard,
         switchboardIndex: this.switchboardIndex
       })
+    },
+    onDeleteSwitchboard() {
+      this.$emit('delete-switchboard', this.switchboardIndex)
     }
   }
 })

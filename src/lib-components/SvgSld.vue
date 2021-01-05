@@ -28,6 +28,7 @@ Uses HorizontalGroup-mixins, which defines:
           @update-switchboard-y="updateVAlignment(index*2, $event)"
           @add-producer="addProducer"
           @add-consumer="addConsumer"
+          @delete-switchboard="deleteSwitchboard"
       >
         <template v-slot:component="slotProp">
           <slot
@@ -122,6 +123,9 @@ export default mixins(HorizontalGroup({})).extend({
     },
     addSwitchboard() {
       this.$emit('add-switchboard');
+    },
+    deleteSwitchboard(event: number) {
+      this.$emit('delete-switchboard', event)
     }
   }
 })
