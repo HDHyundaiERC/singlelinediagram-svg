@@ -4,51 +4,59 @@ Using mixin VerticalGroup
 
 <template>
   <svg
-    :viewBox="viewBox"
-    :x="x"
-    :y="y"
-    :width="width"
-    :height="height"
-    ref="root"
+      :viewBox="viewBox"
+      :x="x"
+      :y="y"
+      :width="width"
+      :height="height"
+      ref="root"
+      style="overflow: visible"
+      @mouseover="hover = true"
+      @mouseout="hover = false"
   >
+    <!-- add rect below for hover parameter to work -->
+    <rect fill="#eee" opacity="0" y="0" x="0" rx="10" ry="10" :width="width" :height="height"/>
     <svg-horizontal-group
-      :x="0"
-      :y="yComponents[0]"
-      :group="switchboard.producers"
-      @update-size="updateSize(0, $event)"
+        :x="0"
+        :y="yComponents[0]"
+        :alignBottom="true"
+        :group="switchboard.producers"
+        @update-size="updateSize(0, $event)"
     >
       <template v-slot:component="slotProp">
         <slot
-          name="component"
-          :x="slotProp.x"
-          :y="slotProp.y"
-          :component="slotProp.component"
-          :updatesize="slotProp.updatesize"
+            name="component"
+            :data="slotProp.data"
         ></slot>
       </template>
     </svg-horizontal-group>
     <svg-switchboard-line
-      :width="width"
-      :x="0"
-      :y="yComponents[1]"
-      @update-size="updateSize(1, $event)"
+        :width="width"
+        :x="0"
+        :y="yComponents[1]"
+        :thickness="sldConfiguration.switchboardThickness"
+        @update-size="updateSize(1, $event)"
     />
     <svg-horizontal-group
-      :x="0"
-      :y="yComponents[2]"
-      :group="switchboard.consumers"
-      @update-size="updateSize(2, $event)"
+        :x="0"
+        :y="yComponents[2]"
+        :group="switchboard.consumers"
+        @update-size="updateSize(2, $event)"
     >
       <template v-slot:component="slotProp">
         <slot
-          name="component"
-          :x="slotProp.x"
-          :y="slotProp.y"
-          :component="slotProp.component"
-          :updatesize="slotProp.updatesize"
+            name="component"
+            :data="slotProp.data"
         ></slot>
       </template>
     </svg-horizontal-group>
+    <SvgButton :xRight="width" :yBottom="yComponents[1]" icon="plus" :show="hover"
+               v-if="sldConfiguration.showAddButtons"
+               @click="onAddProducer"/>
+    <SvgButton :xRight="width" :yTop="yComponents[1] + sldConfiguration.switchboardThickness"
+               icon="plus" :show="hover"
+               v-if="sldConfiguration.showAddButtons"
+               @click="onAddConsumer"/>
   </svg>
 </template>
 
@@ -57,16 +65,38 @@ import Vue from 'vue';
 import { VerticalGroup } from '@/mixins/Group';
 import SvgHorizontalGroup from './SvgHorizontalGroup.vue';
 import SvgSwitchboardLine from './SvgSwitchboardLine.vue';
+import SvgButton from './SvgButton.vue';
 
 export default Vue.extend({
   name: 'SvgSwitchboard',
-  mixins: [VerticalGroup],
-  components: { SvgSwitchboardLine, SvgHorizontalGroup },
-  props: { x: Number, y: Number, switchboard: { type: Object } },
+  mixins: [VerticalGroup({minHeight: 24*2+10})],
+  components: { SvgSwitchboardLine, SvgHorizontalGroup, SvgButton},
+  props: {
+    x: Number,
+    y: Number,
+    switchboard: { type: Object },
+    sldConfiguration: { type: Object, required: true }
+  },
+  data: function() {
+    return {hover: false};
+  },
   computed: {
-    subElements() {
+    nSubElements() {
+      return 3;
+    }
+  },
+  methods: {
+    emitSize: function () {
       // @ts-ignore
-      return [this.switchboard.producers, {}, this.switchboard.consumers];
+      this.$emit('update-size', { width: this.width, height: this.height });
+      // @ts-ignore
+      this.$emit('update-switchboard-y', this.yComponents[1])
+    },
+    onAddProducer() {
+      this.$emit('add-producer', {switchboard: this.switchboard})
+    },
+    onAddConsumer() {
+      this.$emit('add-consumer', {switchboard: this.switchboard})
     }
   }
 })

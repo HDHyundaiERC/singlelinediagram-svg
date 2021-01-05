@@ -11,29 +11,45 @@ Uses HorizontalGroup-mixins, which defines:
 <template>
   <svg
       :viewBox="viewBox"
-      :width="width + 'mm'"
-      :height="height + 'mm'"
+      :width="width*scale + 'mm'"
+      :height="height*scale + 'mm'"
       xmlns="http://www.w3.org/2000/svg"
       class="single-line-diagram"
   >
-    <svg-switchboard
-        v-for="(group, index) of subElements"
-        :key="index"
-        :x="xComponents[index]"
-        :y="0"
-        :switchboard="group"
-        @update-size="updateSize(index, $event)"
-    >
-      <template v-slot:component="slotProp">
-        <slot
-            name="component"
-            :x="slotProp.x"
-            :y="slotProp.y"
-            :component="slotProp.component"
-            :updatesize="slotProp.updatesize"
-        ></slot>
-      </template>
-    </svg-switchboard>
+    <g v-for="(group, index) of system.switchboards"
+       :key="index">
+      <svg-switchboard
+          :x="xComponents[index*2]"
+          :y="yPosition[index*2]"
+          :switchboard="group"
+          :sld-configuration="sldConfiguration"
+          @update-size="updateSize(index*2, $event)"
+          @update-switchboard-y="updateVAlignment(index*2, $event)"
+          @add-producer="addProducer"
+          @add-consumer="addConsumer"
+      >
+        <template v-slot:component="slotProp">
+          <slot
+              name="component"
+              :x="slotProp.data.x"
+              :y="slotProp.data.y"
+              :component="slotProp.data.component"
+              :updatesize="slotProp.data.updatesize"
+              :above-switchboard="slotProp.data.aboveSwitchboard"
+              :group="slotProp.data.group"
+              :index="slotProp.data.index"
+              :delete="slotProp.data.delete"
+          ></slot>
+        </template>
+      </svg-switchboard>
+      <breaker
+          v-if="index !== system.switchboards.length - 1"
+          @update-size="updateSize(index*2 + 1, $event)"
+          :x="xComponents[index*2 + 1]"
+          :y="yPosition[index*2 + 1]"
+          @update-switchboard-y="updateVAlignment(index*2 + 1, $event)"
+      />
+    </g>
   </svg>
 </template>
 
@@ -42,16 +58,53 @@ import { HorizontalGroup } from '@/mixins/Group';
 import SvgSwitchboard from '@/lib-components/SvgSwitchboard.vue';
 
 import Vue from 'vue';
+import Breaker from '@/lib-components/breaker.vue';
 
 export default Vue.extend({
   name: 'SvgSld',
   mixins: [HorizontalGroup],
-  components: { SvgSwitchboard },
-  props: { x: Number, y: Number, system: { type: Object } },
+  components: { Breaker, SvgSwitchboard },
+  props: {
+    x: Number,
+    y: Number,
+    scale: { type: Number, default: .3 },
+    system: { type: Object },
+    sldConfiguration: { type: Object, required: true }
+  },
+  data: function () {
+    return {
+      ySwitchboardPosition: [] as number[],
+      yPosition: [] as number[]
+    }
+  },
   computed: {
-    subElements() {
+    nSubElements() {
+      return this.system.switchboards.length * 2 - 1;
+    },
+    height() {
+      let maxHeight = 0;
       // @ts-ignore
-      return this.system.switchboards;
+      for (const i of Object.keys(this.sizes)) {
+        // @ts-ignore
+        maxHeight = Math.max(maxHeight, this.sizes[i].height + this.yPosition[i])
+      }
+      return maxHeight;
+    }
+  },
+  methods: {
+    updateVAlignment: function (index: number, event: number) {
+      // @ts-ignore
+      this.ySwitchboardPosition[index] = event;
+      // @ts-ignore
+      const yMax = Math.max(...this.ySwitchboardPosition)
+      // @ts-ignore
+      this.yPosition = this.ySwitchboardPosition.map(v => (yMax - v));
+    },
+    addProducer(event: any) {
+      this.$emit('add-producer', event)
+    },
+    addConsumer(event: any) {
+      this.$emit('add-consumer', event)
     }
   }
 })

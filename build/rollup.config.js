@@ -28,7 +28,7 @@ const baseConfig = {
         entries: {
           '@': path.resolve(projectRoot, 'src'),
         },
-      }),
+      })
     ],
     replace: {
       'process.env.NODE_ENV': JSON.stringify('production'),
@@ -41,7 +41,7 @@ const baseConfig = {
       },
     },
     babel: {
-      exclude: 'node_modules/**',
+      exclude: ['node_modules/**'],
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
     },
   },
@@ -52,7 +52,7 @@ const baseConfig = {
 const external = [
   // list external dependencies, exactly the way it is written in the import statement.
   // eg. 'jquery'
-  'vue',
+  'vue'
 ];
 
 // UMD/IIFE shared settings: output.globals

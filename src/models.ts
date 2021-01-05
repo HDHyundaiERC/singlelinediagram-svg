@@ -15,3 +15,8 @@ export interface SldSwitchboard<T> {
 export interface SldComponentGroup<T> {
   components: T[];
 }
+
+export interface SldConfiguration {
+  switchboardThickness: number,
+  showAddButtons: boolean
+}

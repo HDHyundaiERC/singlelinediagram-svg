@@ -17,27 +17,22 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="js">
 import Vue from 'vue';
-import { SvgSld } from '@/entry';
-import { SldConfiguration, SldSystem } from '@/models';
+import { SvgSld } from 'singlelinediagram-svg';
 import SldComponent from './SldComponent.vue';
 
-interface TestComponent {
-  type: string;
-}
-
 export default Vue.extend({
-  name: 'ServeDev',
+  name: 'SldDemo',
   components: {
     SvgSld,
     SldComponent
   },
   methods: {
-    onLeftClick: function (e: TestComponent) {
+    onLeftClick: function (e) {
       console.log('Left click', e.type);
     },
-    onEvent: function (tag: string, e: any) {
+    onEvent: function (tag, e) {
       console.log(tag, e);
     }
   },
@@ -46,7 +41,7 @@ export default Vue.extend({
       sldCfg: {
         switchboardThickness: 5,
         showAddButtons: false
-      } as SldConfiguration,
+      },
       system: {
         switchboards: [
           {
@@ -171,7 +166,7 @@ export default Vue.extend({
             consumers: []
           }
         ]
-      } as SldSystem<TestComponent>
+      }
     };
   },
 

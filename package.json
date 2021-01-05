@@ -1,6 +1,6 @@
 {
   "name": "singlelinediagram-svg",
-  "version": "1.0.0",
+  "version": "1.2.1",
   "description": "",
   "main": "dist/singlelinediagram-svg.ssr.js",
   "browser": "dist/singlelinediagram-svg.esm.js",
@@ -10,17 +10,15 @@
   "files": [
     "dist/*",
     "singlelinediagram-svg.d.ts",
-    "src/**/*.vue"
+    "src/**/*"
   ],
   "scripts": {
+    "prepare": "npm run build",
     "serve": "vue-cli-service serve dev/serve.ts",
     "build": "cross-env NODE_ENV=production rollup --config build/rollup.config.js",
     "build:ssr": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format cjs",
     "build:es": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format es",
     "build:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife"
-  },
-  "dependencies": {
-    "vue-property-decorator": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -41,6 +39,7 @@
     "typescript": "^3.8.3",
     "vue": "^2.6.12",
     "vue-class-component": "^7.2.6",
+    "vue-svg-loader": "^0.16.0",
     "vue-template-compiler": "^2.6.11"
   },
   "peerDependencies": {

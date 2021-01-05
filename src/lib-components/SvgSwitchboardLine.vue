@@ -19,9 +19,9 @@ import Vue from 'vue';
 
 export default Vue.extend({
   name: 'SvgSwitchboardLine',
-  props: { x: Number, y: Number, width: Number },
+  props: { x: Number, y: Number, width: Number, thickness: Number },
   data() {
-    return { height: 4 };
+    return { height: this.thickness };
   },
   mounted: function () {
     this.emitSize();
@@ -34,7 +34,7 @@ export default Vue.extend({
   methods: {
     emitSize: function () {
       this.$emit('update-size', {
-        width: 0,
+        width: this.height*10,
         height: this.height
       });
     }
