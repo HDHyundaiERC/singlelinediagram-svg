@@ -29,6 +29,9 @@
 
 import Vue from 'vue'
 
+export const BUTTON_HEIGHT = 24;
+export const BUTTON_WIDTH = 24;
+
 export default Vue.extend({
   name: 'svg-button',
   props: {
@@ -44,7 +47,7 @@ export default Vue.extend({
       if (this.yTop !== undefined) {
         return this.yTop;
       } else if (this.yBottom !== undefined) {
-        return this.yBottom - 24;
+        return this.yBottom - BUTTON_HEIGHT;
       } else {
         return 0;
       }
@@ -53,7 +56,7 @@ export default Vue.extend({
       if (this.xLeft !== undefined) {
         return this.xLeft;
       } else if (this.xRight !== undefined) {
-        return this.xRight - 24;
+        return this.xRight - BUTTON_WIDTH;
       } else {
         return 0;
       }

@@ -69,10 +69,12 @@ import SvgHorizontalGroup from './SvgHorizontalGroup.vue';
 import SvgSwitchboardLine from './SvgSwitchboardLine.vue';
 import SvgButton from './SvgButton.vue';
 import mixins from 'vue-typed-mixins';
+import { BUTTON_HEIGHT } from './SvgButton.vue';
 
-export default mixins(VerticalGroup({ minHeight: 24 * 2 + 10 })).extend({
+const STANDARD_SWITCHBOARD_THICKNESS = 10;
+
+export default mixins(VerticalGroup({ minHeight: BUTTON_HEIGHT * 2 + STANDARD_SWITCHBOARD_THICKNESS })).extend({
   name: 'SvgSwitchboard',
-  mixins: [VerticalGroup({ minHeight: 24 * 2 + 10 })],
   components: { SvgSwitchboardLine, SvgHorizontalGroup, SvgButton },
   props: {
     x: Number,
