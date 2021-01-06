@@ -85,9 +85,9 @@ export function HorizontalGroup( option: {minHeight?: number, minWidth?: number}
         return `0 0 ${ this.width } ${ this.height }`;
       },
       xComponents: function (): number[] {
-        if (this.sizes.length !== this.nSubElements) {
-          return new Array(this.nSubElements).fill(0);
-        }
+        // if (this.sizes.length !== this.nSubElements) {
+        //   return new Array(this.nSubElements).fill(0);
+        // }
         let x = 0;
         const xComp = [];
         for (const size of this.sizes) {

@@ -92,6 +92,11 @@ export default mixins(VerticalGroup({ minHeight: 24 * 2 + 10 })).extend({
       return 3;
     }
   },
+  watch: {
+    switchboardIndex(newValue: number) {
+      this.emitSize()
+    }
+  },
   methods: {
     emitSize: function () {
       this.$emit('update-size', { width: this.width, height: this.height });
