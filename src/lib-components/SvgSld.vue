@@ -28,6 +28,7 @@ Uses HorizontalGroup-mixins, which defines:
           @update-switchboard-y="updateVAlignment(index*2, $event)"
           @add-producer="addProducer"
           @add-consumer="addConsumer"
+          @delete-switchboard="deleteSwitchboard"
       >
         <template v-slot:component="slotProp">
           <slot
@@ -88,7 +89,8 @@ export default mixins(HorizontalGroup({})).extend({
   },
   computed: {
     nSubElements() {
-      return this.system.switchboards.length * 2 - 1;
+      const nElem = this.system.switchboards.length * 2 - 1;
+      return nElem;
     },
     height() {
       let maxHeight = 0;
@@ -109,10 +111,10 @@ export default mixins(HorizontalGroup({})).extend({
       // @ts-ignore
       this.ySwitchboardPosition[index] = event;
       // @ts-ignore
-      const yMax = Math.max(...this.ySwitchboardPosition, 2*this.buttonSize.height)
+      const yMax = Math.max(...this.ySwitchboardPosition, 2*this.buttonSize.height);
       // @ts-ignore
       this.yPosition = this.ySwitchboardPosition.map(v => (yMax - v));
-      this.yPosition.push(yMax)
+      this.yPosition.push(yMax);
     },
     addProducer(event: any) {
       this.$emit('add-producer', event)
@@ -122,6 +124,22 @@ export default mixins(HorizontalGroup({})).extend({
     },
     addSwitchboard() {
       this.$emit('add-switchboard');
+    },
+    deleteSwitchboard(switchboardIndex: number) {
+      // First delete size and position information of the switchboard and the attached breaker
+      if (switchboardIndex > 0) {
+        this.sizes.splice(switchboardIndex * 2 - 1 , 2);
+        this.yPosition.splice(switchboardIndex * 2 - 1, 2);
+        this.ySwitchboardPosition.splice(switchboardIndex * 2 - 1, 2);
+      } else if (this.system.switchboards.length > 1) {
+        // Delete only switchboard information if the switchboard to delete is the first one.
+        this.sizes.splice(switchboardIndex, 2);
+        this.yPosition.splice(switchboardIndex, 2);
+        this.ySwitchboardPosition.splice(switchboardIndex, 2);
+      } else {
+        this.updateVAlignment(0, this.buttonSize.height)
+      }
+      this.$emit('delete-switchboard', switchboardIndex);
     }
   }
 })

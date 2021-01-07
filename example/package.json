@@ -9,8 +9,9 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "singlelinediagram-svg": "git+ssh://git@git.code.sintef.no/mes/singlelinediagram-svg.git#95ebd22",
-    "vue": "^2.6.11"
+    "singlelinediagram-svg": "git+ssh://git@git.code.sintef.no/mes/singlelinediagram-svg.git",
+    "vue": "^2.6.11",
+    "vue-typed-mixins": "^0.2.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

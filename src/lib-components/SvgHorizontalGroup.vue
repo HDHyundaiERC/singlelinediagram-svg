@@ -57,6 +57,15 @@ export default Vue.extend({
         return Object.values(this.sizes).map(v => 0)
       }
     }
+  },
+  watch: {
+    /**
+     * Updates the dimension of the size array and update its size to the parent component
+     */
+    group(newValue) {
+      this.sizes.splice(newValue.length, this.sizes.length - newValue.length)
+      this.emitSize()
+    }
   }
 })
 

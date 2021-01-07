@@ -2,7 +2,9 @@
   <div id="app">
     <svg-sld :system="system" :sld-configuration="sldCfg"
              @add-producer="onEvent('add-producer', $event)"
-             @add-consumer="onEvent('add-consumer', $event)">
+             @add-consumer="onEvent('add-consumer', $event)"
+             @add-switchboard="onEvent('add-switchboard')"
+             @delete-switchboard="onEvent('delete-switchboard', $event)">
       <template v-slot:component="slotProps">
         <sld-component
             :x="slotProps.x"
