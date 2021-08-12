@@ -51,6 +51,7 @@ Uses HorizontalGroup-mixins, which defines:
           @update-size="updateSize(index*2 + 1, $event)"
           :x="xComponents[index*2 + 1]"
           :y="yPosition[index*2 + 1]"
+          :open="busTieBreakersOpen"
           @update-switchboard-y="updateVAlignment(index*2 + 1, $event)"
       />
     </g>
@@ -104,6 +105,9 @@ export default mixins(HorizontalGroup({})).extend({
           (sumWidth, size) => sumWidth + size.width,
           0
       ) + this.buttonSize.width;
+    },
+    busTieBreakersOpen(): boolean {
+      return this.sldConfiguration.busTieBreakersOpen ?? true;
     }
   },
   methods: {

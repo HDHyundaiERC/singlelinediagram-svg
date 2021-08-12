@@ -42,7 +42,8 @@ export default Vue.extend({
     return {
       sldCfg: {
         switchboardThickness: 5,
-        showAddButtons: true
+        showAddButtons: true,
+        busTieBreakersOpen: true
       },
       system: {
         switchboards: [

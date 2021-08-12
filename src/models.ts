@@ -20,5 +20,6 @@ export interface SldComponentGroup<T> {
 
 export interface SldConfiguration {
   switchboardThickness: number,
-  showAddButtons: boolean
+  showAddButtons: boolean,
+  busTieBreakersOpen?: boolean
 }
