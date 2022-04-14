@@ -52,6 +52,7 @@ Uses HorizontalGroup-mixins, which defines:
           :x="xComponents[index*2 + 1]"
           :y="yPosition[index*2 + 1]"
           :open="busTieBreakersOpen"
+          :hide-breakers="hideBreaker"
           @update-switchboard-y="updateVAlignment(index*2 + 1, $event)"
       />
     </g>
@@ -79,7 +80,8 @@ export default mixins(HorizontalGroup({})).extend({
     y: Number,
     scale: { type: Number, default: .3 },
     system: { type: Object },
-    sldConfiguration: { type: Object, required: true }
+    sldConfiguration: { type: Object, required: true },
+    hideBreaker: { type: Boolean, default: false }
   },
   data: function () {
     return {
